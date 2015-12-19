@@ -44,7 +44,7 @@ var ppfillpipesid = 0;
 var ppflashhighscoreid = 0;
 var ppcleardeadpipesy = 10; var ppcleardeadpipesx = 0;
 var ppfillpipespasscounter = ppfilledcounterbase;
-var pphighscore = 0;
+var pphighscore =0;
 var ppscore = 0;
 var ppgameover = false;
 // --- Create 2 dimensional array for the game board. ---
@@ -460,7 +460,8 @@ function ppfillpipes() {
 			ppdisplayanumber(pphighscore, 4, "hscore");
 			ppflashhighscoreid = setTimeout("ppflashhighscore()", 0);
 			// Save the high score to a cookie.			
-			cookiemanager("write", "pphighscore", pphighscore, 366);
+			//cookiemanager("write", "pphighscore", pphighscore, 366);
+			window.localStorage.setItem("pphighscore", pphighscore);
 		}
 	}
 }
@@ -727,43 +728,3 @@ function ppdebugstuff() {
 function ppresetcookie() {
 	if (confirm("Are you sure you want to reset the cookie?")) cookiemanager('write', 'pphighscore', 0, 0);
 }
-
-// ------------------------------------------------------------------
-// cookiemanager.
-// ------------------------------------------------------------------
-// On entry:
-//	action = "write" or "read".
-//	name = cookie name.
-//	value = cookie value.
-//	days = expiry in days.
-// On exit:
-//	cookiemanager returns a value on read, "" if the cookie doesn't exist.
-//	NOTE: if you are expecting to read a number then call it like this :-
-//		mynum = Number(cookiemanager("read", bla, bla, bla))
-
-function cookiemanager(action, name, value, days) {
-	var cookiestring = document.cookie;
-	var cookie = cookiestring.split(';');
-	var cookiesize = cookie.length;
-	var cookieloop = 0;
-	var cookienamesvaluesarray = "";
-	var cookievalue = "";
-	var expires = new Date();
-	var expirydays = expires.getTime() + (days * 24 * 60 * 60 * 1000);
-	expires.setTime(expirydays);
-	
-	if (action == 'write') {
-		document.cookie = name + "=" + value + "; expires=" + expires.toGMTString();
-	} else {
-		if (action == 'read') {
-			for (cookieloop = 0; cookieloop < cookiesize; cookieloop++) {
-				cookienamesvaluesarray = cookie[cookieloop].split("=");
-				cookievalue = cookienamesvaluesarray[0];
-				if (cookievalue.substr(0,1) == " ") cookievalue = cookievalue.substr(1);
-				if (cookievalue == name) return cookienamesvaluesarray[1];
-			}
-			return "";
-		}	
-	}
-}
-

@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
     private static final long mTouchThreshold = 2000;
     private Toast pressBackToast;
 
-    @SuppressLint({ "SetJavaScriptEnabled", "NewApi", "ShowToast" })
+    @SuppressLint({"SetJavaScriptEnabled", "ShowToast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,24 +51,7 @@ public class MainActivity extends Activity {
         // Apply previous setting about showing status bar or not
         applyFullScreen(isFullScreen());
 
-        // Check if screen rotation is locked in settings
-        boolean isOrientationEnabled = false;
-        try {
-            isOrientationEnabled = Settings.System.getInt(getContentResolver(),
-                    Settings.System.ACCELEROMETER_ROTATION) == 1;
-        } catch (SettingNotFoundException e) { }
-
-
-        // If rotation isn't locked and it's a LARGE screen then add orientation changes based on sensor
-/*        int screenLayout = getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK;
-        if (((screenLayout == Configuration.SCREENLAYOUT_SIZE_LARGE)
-                || (screenLayout == Configuration.SCREENLAYOUT_SIZE_XLARGE))
-                    && isOrientationEnabled) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-        }*/
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         setContentView(R.layout.activity_main);
 
@@ -79,14 +62,18 @@ public class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
 
+        /*CookieManager cm = CookieManager.getInstance();
+        cm.setAcceptCookie(true);
+        cm.acceptThirdPartyCookies(mWebView);*/
+
         settings.setUseWideViewPort(true);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
-
         settings.setLoadWithOverviewMode(true);
 
-        //settings.setRenderPriority(RenderPriority.HIGH);
-        //settings.setDatabasePath("/data/data/" + packageName + "/databases");
+        mWebView.setVerticalScrollBarEnabled(false);
+        mWebView.setHorizontalScrollBarEnabled(false);
+
 
         // If there is a previous instance restore it in the webview
         if (savedInstanceState != null) {
@@ -94,6 +81,7 @@ public class MainActivity extends Activity {
         } else {
             mWebView.loadUrl("file:///android_asset/jspp/index.html");
         }
+
 
         Toast.makeText(getApplication(), R.string.toggle_fullscreen, Toast.LENGTH_SHORT).show();
         // Set fullscreen toggle on webview LongClick
@@ -148,6 +136,7 @@ public class MainActivity extends Activity {
 
     /**
      * Toggles the activitys fullscreen mode by setting the corresponding window flag
+     *
      * @param isFullScreen
      */
     private void applyFullScreen(boolean isFullScreen) {
@@ -162,7 +151,20 @@ public class MainActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+     /*   int CONTENT_HEIGHT = 40;
+        int CONTENT_WIDTH = 750;
+        int width = mWebView.getMeasuredWidth();
+        int height = mWebView.getMeasuredHeight();
+        if (height > 0) {
+            float scale = Math.min((float) height / (float) CONTENT_HEIGHT,
+                    (float) width / (float) CONTENT_WIDTH);
+            Toast.makeText(MainActivity.this, "H" + height + "W" + width +
+                    "scale" + scale, Toast.LENGTH_LONG).show();
+            mWebView.setInitialScale(Math.round(scale * 100));
+        }*/
     }
+
 
     @Override
     public void onBackPressed() {
