@@ -3,12 +3,18 @@ package org.olgsoft.apipepanic;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.view.Menu;
@@ -21,7 +27,10 @@ import android.view.WindowManager.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.util.logging.Logger;
 
 public class MainActivity extends Activity {
 
@@ -96,6 +105,9 @@ public class MainActivity extends Activity {
                     boolean toggledFullScreen = !isFullScreen();
                     saveFullScreen(toggledFullScreen);
                     applyFullScreen(toggledFullScreen);
+
+                    shareScreenShot();
+
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mLastTouch = currentTime;
                 }
@@ -108,6 +120,39 @@ public class MainActivity extends Activity {
         pressBackToast = Toast.makeText(getApplicationContext(), R.string.press_back_again_to_exit,
                 Toast.LENGTH_SHORT);
     }
+
+
+    public void shareScreenShot()
+    {
+        if (this.mWebView != null) {
+
+            mWebView.buildDrawingCache(true);
+            Bitmap mBitmap = Bitmap.createBitmap(mWebView.getDrawingCache(true).copy(Bitmap.Config.ARGB_8888, false));
+            mWebView.destroyDrawingCache();
+
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(),
+                    mBitmap, "Image Description", "Bla");
+
+            Uri uri = Uri.parse(path);
+
+            try {
+
+                // Share Intent
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("image/jpeg");
+
+                // Pass the image into an Intnet
+                share.putExtra(Intent.EXTRA_STREAM, uri);
+
+                // Show the social share chooser list
+                startActivity(Intent.createChooser(share, "Share your screen shot"));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
