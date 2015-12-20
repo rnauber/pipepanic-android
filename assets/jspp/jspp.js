@@ -39,10 +39,10 @@ var pppreviewarray = new Array(3);
 var pppipearray = new Array(pppipearraysize);
 var pppipearraypointer = pppipearraysize;
 var ppgametimer = ppgametimerseconds;
-var ppgametimerid = 0;
-var ppcleardeadpipesid = 0;
-var ppfillpipesid = 0;
-var ppflashhighscoreid = 0;
+var ppgametimerid = new Timer(null,1);
+var ppcleardeadpipesid =  new Timer(null,1);
+var ppfillpipesid =  new Timer(null,1);
+var ppflashhighscoreid =  new Timer(null,1);
 var ppcleardeadpipesy = 10; var ppcleardeadpipesx = 0;
 var ppfillpipespasscounter = ppfilledcounterbase;
 var pphighscore =0;
@@ -364,7 +364,7 @@ function ppcreatedeadpipesarray() {
 
 	// Set off the clear dead pipes timer.
 	ppcleardeadpipesy = 10; ppcleardeadpipesx = 0;
-	ppcleardeadpipesid = setTimeout("ppcleardeadpipes()", 0);
+	ppcleardeadpipesid = new Timer("ppcleardeadpipes()", 0);
 	
 /*	
 	// Show messagebox with game board.
@@ -417,10 +417,10 @@ function ppcleardeadpipes() {
 		}
 	} while (!deadpipefound && !nomorepipes)
 	if (!nomorepipes) {
-		ppcleardeadpipesid = setTimeout("ppcleardeadpipes()", ppcleardeadpipestimeout);
+		ppcleardeadpipesid = new Timer("ppcleardeadpipes()", ppcleardeadpipestimeout);
 	} else {
 		ppfillpipespasscounter = ppfilledcounterbase;
-		ppfillpipesid = setTimeout("ppfillpipes()", 0);
+		ppfillpipesid = new Timer("ppfillpipes()", 0);
 	}
 }
 
@@ -456,13 +456,13 @@ function ppfillpipes() {
 	}
 	ppfillpipespasscounter++;
 	if (!leakypipefound && !nomorepipes) {
-		ppfillpipesid = setTimeout("ppfillpipes()", ppfillpipestimeout);
+		ppfillpipesid = new Timer("ppfillpipes()", ppfillpipestimeout);
 	} else {
 		// Ok, last bit, high score.
 		if (ppscore > pphighscore) {
 			pphighscore = ppscore;
 			ppdisplayanumber(pphighscore, 4, "hscore");
-			ppflashhighscoreid = setTimeout("ppflashhighscore()", 0);
+			ppflashhighscoreid = new Timer("ppflashhighscore()", 0);
 			// Save the high score
 			window.localStorage.setItem("pphighscore", pphighscore);
 		}
@@ -479,7 +479,7 @@ function ppflashhighscore() {
 	} else {
 		ppdisplayanumber(pphighscore, 4, "hscore");
 	}
-	ppflashhighscoreid = setTimeout("ppflashhighscore()", ppflashhighscoretimeout);
+	ppflashhighscoreid = new Timer("ppflashhighscore()", ppflashhighscoretimeout);
 }
 
 function ppfillpipesnow() {
@@ -535,10 +535,10 @@ function ppreset() {
 	var row = 0;
 					
 	// --- Clear any pending timed operations else unexpected things occur. ---
-	clearTimeout(ppgametimerid);
-	clearTimeout(ppcleardeadpipesid);
-	clearTimeout(ppfillpipesid);
-	clearTimeout(ppflashhighscoreid);
+	ppgametimerid.pause();
+	ppcleardeadpipesid.pause();
+	ppfillpipesid.pause();
+	ppflashhighscoreid.pause();
 
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
@@ -571,7 +571,7 @@ function ppreset() {
 	// Set off the game timer.
 	ppgametimer = ppgametimerseconds;
 	ppdisplayanumber(ppgametimer, 3, "timer");
-	ppgametimerid = setTimeout("ppdecgametimer()", 1000);
+	ppgametimerid = new Timer("ppdecgametimer()", 1000);
 }
 
 function ppgetnextpipepiece() {
@@ -637,7 +637,7 @@ function ppdecgametimer() {
 			ppcreatedeadpipesarray();
 			ppgameover = true;
 		} else {
-			ppgametimerid = setTimeout("ppdecgametimer()", 1000);
+			ppgametimerid = new Timer("ppdecgametimer()", 1000);
 		}
 	}
 }
@@ -728,7 +728,37 @@ function ppdebugstuff() {
 	}
 }
 
-function ppresetcookie() {
-	if (confirm("Are you sure you want to reset the high score?"))
-	    window.localStorage.setItem("pphighscore", 0);
+function resetHighscore() {
+		    window.localStorage.setItem("pphighscore", 0);
+}
+
+function pauseGame() {
+	ppgametimerid.pause();
+	ppcleardeadpipesid.pause();
+	ppfillpipesid.pause();
+	ppflashhighscoreid.pause();
+}
+
+function resumeGame() {
+	ppgametimerid.resume();
+	ppcleardeadpipesid.resume();
+	ppfillpipesid.resume();
+	ppflashhighscoreid.resume();
+}
+
+function Timer(action, delay) {
+    var timerId
+    var start
+    var t_remaining = delay;
+
+    this.resume = function() {
+     	window.clearTimeout(timerId);
+        start = new Date();
+        timerId = window.setTimeout(action, t_remaining);
+    };
+    this.pause = function() {
+        window.clearTimeout(timerId);
+        t_remaining -= new Date() - start;
+    };
+    this.resume();
 }

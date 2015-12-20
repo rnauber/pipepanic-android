@@ -17,6 +17,8 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +29,7 @@ import android.view.WindowManager.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,13 +38,8 @@ import java.util.logging.Logger;
 public class MainActivity extends Activity {
 
     private WebView mWebView;
-    private long mLastBackPress;
-    private static final long mBackPressThreshold = 3500;
-    private static final String IS_FULLSCREEN_PREF = "is_fullscreen_pref";
-    private static boolean DEF_FULLSCREEN = true;
-    private long mLastTouch;
-    private static final long mTouchThreshold = 2000;
-    private Toast pressBackToast;
+    private DrawerLayout drawerLayout;
+
 
     @SuppressLint({"SetJavaScriptEnabled", "ShowToast"})
     @Override
@@ -57,12 +55,26 @@ public class MainActivity extends Activity {
                     LayoutParams.FLAG_HARDWARE_ACCELERATED);
         }
 
-        // Apply previous setting about showing status bar or not
-        applyFullScreen(isFullScreen());
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         setContentView(R.layout.activity_main);
+
+        // build a drawer
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                setGameState(false);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setGameState(true);
+            }
+        });
 
         // Load webview with game
         mWebView = (WebView) findViewById(R.id.mainWebView);
@@ -90,40 +102,49 @@ public class MainActivity extends Activity {
             mWebView.loadUrl("file:///android_asset/jspp/index.html");
         }
 
-
-        Toast.makeText(getApplication(), R.string.toggle_fullscreen, Toast.LENGTH_SHORT).show();
-        // Set fullscreen toggle on webview LongClick
-        mWebView.setOnTouchListener(new OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Implement a long touch action by comparing
-                // time between action up and action down
-                long currentTime = System.currentTimeMillis();
-                if ((event.getAction() == MotionEvent.ACTION_UP)
-                        && (Math.abs(currentTime - mLastTouch) > mTouchThreshold)) {
-                    boolean toggledFullScreen = !isFullScreen();
-                    saveFullScreen(toggledFullScreen);
-                    applyFullScreen(toggledFullScreen);
-
-                    shareScreenShot();
-
-                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mLastTouch = currentTime;
-                }
-                // return so that the event isn't consumed but used
-                // by the webview as well
-                return false;
-            }
-        });
-
-        pressBackToast = Toast.makeText(getApplicationContext(), R.string.press_back_again_to_exit,
-                Toast.LENGTH_SHORT);
     }
 
 
-    public void shareScreenShot()
-    {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        mWebView.saveState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+     /*   int CONTENT_HEIGHT = 40;
+        int CONTENT_WIDTH = 750;
+        int width = mWebView.getMeasuredWidth();
+        int height = mWebView.getMeasuredHeight();
+        if (height > 0) {
+            float scale = Math.min((float) height / (float) CONTENT_HEIGHT,
+                    (float) width / (float) CONTENT_WIDTH);
+            Toast.makeText(MainActivity.this, "H" + height + "W" + width +
+                    "scale" + scale, Toast.LENGTH_LONG).show();
+            mWebView.setInitialScale(Math.round(scale * 100));
+        }*/
+    }
+
+    @Override
+    public void onBackPressed() {
+        long currentTime = System.currentTimeMillis();
+        if (!drawerLayout.isDrawerOpen(Gravity.START)) {
+            drawerLayout.openDrawer(Gravity.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        drawerLayout.openDrawer(Gravity.START);
+    }
+
+
+    public void shareScreenShot(View v) {
         if (this.mWebView != null) {
 
             mWebView.buildDrawingCache(true);
@@ -154,37 +175,13 @@ public class MainActivity extends Activity {
     }
 
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        mWebView.saveState(outState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        // getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    private void saveFullScreen(boolean isFullScreen) {
-        // save in preferences
-        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        editor.putBoolean(IS_FULLSCREEN_PREF, isFullScreen);
-        editor.commit();
-    }
-
-    private boolean isFullScreen() {
-        return PreferenceManager.getDefaultSharedPreferences(this).getBoolean(IS_FULLSCREEN_PREF,
-                DEF_FULLSCREEN);
-    }
-
     /**
-     * Toggles the activitys fullscreen mode by setting the corresponding window flag
+     * Toggles the activity's fullscreen mode by setting the corresponding window flag
      *
-     * @param isFullScreen
+     * @param
      */
-    private void applyFullScreen(boolean isFullScreen) {
-        if (isFullScreen) {
+    public void applyFullScreen(View v) {
+        if (!((CheckBox) findViewById(R.id.fullscreen_checkbox)).isChecked()) {
             getWindow().clearFlags(LayoutParams.FLAG_FULLSCREEN);
         } else {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -192,33 +189,19 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    public void resetHighscore(View v) {
+        mWebView.loadUrl("javascript:resetHighscore()");
+    }
+    public void newGame(View v) {
+        mWebView.loadUrl("javascript:ppreset()");
+    }
 
-     /*   int CONTENT_HEIGHT = 40;
-        int CONTENT_WIDTH = 750;
-        int width = mWebView.getMeasuredWidth();
-        int height = mWebView.getMeasuredHeight();
-        if (height > 0) {
-            float scale = Math.min((float) height / (float) CONTENT_HEIGHT,
-                    (float) width / (float) CONTENT_WIDTH);
-            Toast.makeText(MainActivity.this, "H" + height + "W" + width +
-                    "scale" + scale, Toast.LENGTH_LONG).show();
-            mWebView.setInitialScale(Math.round(scale * 100));
-        }*/
+    public void setGameState(boolean paused) {
+        if (paused)
+            mWebView.loadUrl("javascript:pauseGame()");
+        else
+            mWebView.loadUrl("javascript:resumeGame()");
     }
 
 
-    @Override
-    public void onBackPressed() {
-        long currentTime = System.currentTimeMillis();
-        if (Math.abs(currentTime - mLastBackPress) > mBackPressThreshold) {
-            pressBackToast.show();
-            mLastBackPress = currentTime;
-        } else {
-            pressBackToast.cancel();
-            super.onBackPressed();
-        }
-    }
 }

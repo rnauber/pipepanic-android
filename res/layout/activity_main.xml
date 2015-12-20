@@ -1,12 +1,77 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".MainActivity" >
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- The main content view -->
 
-    <WebView
-	    android:id="@+id/mainWebView"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:context=".MainActivity">
 
-</LinearLayout>
+        <WebView
+            android:id="@+id/mainWebView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+    </LinearLayout>
+
+    <!-- The navigation drawer -->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/message_view"
+        android:layout_width="300dp"
+        android:layout_height="fill_parent"
+        android:layout_gravity="start"
+        android:gravity="start">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/message_layout"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/newgame_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Start a new game"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:onClick="newGame"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/toggle_fullscreen"
+                android:id="@+id/fullscreen_checkbox"
+                android:onClick="applyFullScreen"
+                android:layout_gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/primary_text_dark"
+                />
+
+            <Button
+                android:id="@+id/share_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/share_screenshot"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:onClick="shareScreenShot"/>
+
+            <Button
+                android:id="@+id/clear_highscore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/clear_highscore"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</android.support.v4.widget.DrawerLayout>
