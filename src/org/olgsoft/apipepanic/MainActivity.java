@@ -44,8 +44,8 @@ public class MainActivity extends Activity {
 
         // If on android 3.0+ activate hardware acceleration
         if (Build.VERSION.SDK_INT >= 11) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+            getWindow().setFlags(LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                    LayoutParams.FLAG_HARDWARE_ACCELERATED);
         }
 
         // Apply previous setting about showing status bar or not
@@ -62,13 +62,12 @@ public class MainActivity extends Activity {
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
 
-        /*CookieManager cm = CookieManager.getInstance();
-        cm.setAcceptCookie(true);
-        cm.acceptThirdPartyCookies(mWebView);*/
-
         settings.setUseWideViewPort(true);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            settings.setDisplayZoomControls(false);
+        }
         settings.setLoadWithOverviewMode(true);
 
         mWebView.setVerticalScrollBarEnabled(false);

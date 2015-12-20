@@ -32,6 +32,7 @@ var pppipeplacementscore = 10;
 var pppipeoverwritescore = -10;
 var ppdeadpipescore = -10;
 var ppfilledpipescore = 50;
+var ppfilledendpointscore = 250;
 var ppfillnowscore = 5;
 // --- Global variables. ---
 var pppreviewarray = new Array(3);
@@ -438,6 +439,9 @@ function ppfillpipes() {
 				column = colloop; if (column < 10) column = "0" + column;
 				document.images["board" + row + column].src = eval("pppipefull" + ppboardarray[rowloop][colloop]).src;
 				ppscore = ppscore + ppfilledpipescore;
+				if (ppboardarray[rowloop][colloop] == 1){
+				    ppscore += ppfilledendpointscore //bonus for filling the endpoint
+                }
 				ppdisplayanumber(ppscore, 4, "score");
 				// Is it a leaky pipe? If so break out of both for-next loops.
 				if (ppdeadpipesarray[rowloop][colloop] >= ppfilledcounterbase + ppleakypipeval) {
@@ -459,8 +463,7 @@ function ppfillpipes() {
 			pphighscore = ppscore;
 			ppdisplayanumber(pphighscore, 4, "hscore");
 			ppflashhighscoreid = setTimeout("ppflashhighscore()", 0);
-			// Save the high score to a cookie.			
-			//cookiemanager("write", "pphighscore", pphighscore, 366);
+			// Save the high score
 			window.localStorage.setItem("pphighscore", pphighscore);
 		}
 	}
@@ -726,5 +729,6 @@ function ppdebugstuff() {
 }
 
 function ppresetcookie() {
-	if (confirm("Are you sure you want to reset the cookie?")) cookiemanager('write', 'pphighscore', 0, 0);
+	if (confirm("Are you sure you want to reset the high score?"))
+	    window.localStorage.setItem("pphighscore", 0);
 }
