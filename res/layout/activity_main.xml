@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Start a new game"
+                android:text="@string/startnewgame"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:onClick="newGame"/>
 
@@ -48,6 +48,7 @@
                 android:text="@string/toggle_fullscreen"
                 android:id="@+id/fullscreen_checkbox"
                 android:onClick="applyFullScreen"
+                android:checked="true"
                 android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@android:color/primary_text_dark"
@@ -70,6 +71,15 @@
                 android:text="@string/clear_highscore"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 />
+
+            <Button
+                android:id="@+id/about_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/about"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:onClick="showHelp" />
 
         </LinearLayout>
     </RelativeLayout>

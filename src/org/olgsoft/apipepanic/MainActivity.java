@@ -4,44 +4,31 @@ package org.olgsoft.apipepanic;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.webkit.WebSettings;
-import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.util.logging.Logger;
 
 public class MainActivity extends Activity {
 
     private WebView mWebView;
     private DrawerLayout drawerLayout;
+    private boolean helpActive = false;
 
 
-    @SuppressLint({"SetJavaScriptEnabled", "ShowToast"})
+    @SuppressLint({"SetJavaScriptEnabled"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,15 +53,19 @@ public class MainActivity extends Activity {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                setGameState(false);
+                if (!helpActive)
+                    setGameStatePaused(false);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                setGameState(true);
+                hideHelp(null);
+                setGameStatePaused(true);
             }
         });
+
+        applyFullScreen(null);
 
         // Load webview with game
         mWebView = (WebView) findViewById(R.id.mainWebView);
@@ -129,7 +120,6 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        long currentTime = System.currentTimeMillis();
         if (!drawerLayout.isDrawerOpen(Gravity.START)) {
             drawerLayout.openDrawer(Gravity.START);
         } else {
@@ -174,11 +164,8 @@ public class MainActivity extends Activity {
         }
     }
 
-
     /**
      * Toggles the activity's fullscreen mode by setting the corresponding window flag
-     *
-     * @param
      */
     public void applyFullScreen(View v) {
         if (!((CheckBox) findViewById(R.id.fullscreen_checkbox)).isChecked()) {
@@ -192,15 +179,32 @@ public class MainActivity extends Activity {
     public void resetHighscore(View v) {
         mWebView.loadUrl("javascript:resetHighscore()");
     }
+
     public void newGame(View v) {
         mWebView.loadUrl("javascript:ppreset()");
+        drawerLayout.closeDrawer(Gravity.START);
     }
 
-    public void setGameState(boolean paused) {
+    public void setGameStatePaused(boolean paused) {
         if (paused)
             mWebView.loadUrl("javascript:pauseGame()");
         else
             mWebView.loadUrl("javascript:resumeGame()");
+    }
+
+    public void showHelp(View v) {
+        helpActive = true;
+        mWebView.loadUrl("javascript:help(1)");
+        drawerLayout.closeDrawer(Gravity.START);
+        setGameStatePaused(true);
+
+    }
+
+    public void hideHelp(View v) {
+        if (helpActive) {
+            mWebView.loadUrl("javascript:help(0)");
+            helpActive = false;
+        }
     }
 
 

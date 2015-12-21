@@ -7,4 +7,6 @@
     <string name="share_screenshot">Share a screenshot</string>
     <string name="clear_highscore">Clear highscore</string>
     <string name="clear_highscore_confirm">Are you sure you want to reset the high score?</string>
+    <string name="about">About</string>
+    <string name="startnewgame">Start a new game</string>
 </resources>

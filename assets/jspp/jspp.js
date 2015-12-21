@@ -18,6 +18,8 @@
 // --- Global constants. ---
 // --- Can't use 'const' here as IE doesn't like it so must use 'var' :s ---
 
+
+var ppgamepaused=false;
 var ppdebug = false;
 var ppgametimerseconds = 240;
 var pppipearraysize = 105;
@@ -39,10 +41,12 @@ var pppreviewarray = new Array(3);
 var pppipearray = new Array(pppipearraysize);
 var pppipearraypointer = pppipearraysize;
 var ppgametimer = ppgametimerseconds;
-var ppgametimerid = new Timer(null,1);
-var ppcleardeadpipesid =  new Timer(null,1);
-var ppfillpipesid =  new Timer(null,1);
-var ppflashhighscoreid =  new Timer(null,1);
+
+var ppgametimerid = new Timer(null,-1);
+var ppcleardeadpipesid =  new Timer(null,-1);
+var ppfillpipesid =  new Timer(null,-1);
+var ppflashhighscoreid =  new Timer(null,-1);
+
 var ppcleardeadpipesy = 10; var ppcleardeadpipesx = 0;
 var ppfillpipespasscounter = ppfilledcounterbase;
 var pphighscore =0;
@@ -429,7 +433,7 @@ function ppfillpipes() {
 	var rowloop = 0; var colloop = 0;
 	var leakypipefound = false;
 	var nomorepipes = true;
-	
+
 	// Show all filled pipes onscreen for this passcounter.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
 		for (colloop = 0; colloop < 11; colloop++) {
@@ -483,7 +487,7 @@ function ppflashhighscore() {
 }
 
 function ppfillpipesnow() {
-	if (!ppgameover) {
+	if (!ppgameover && !ppgamepaused) {
 		ppscore = ppscore + ppgametimer * ppfillnowscore;
 		ppdisplayanumber(ppscore, 4, "score");
 		ppgametimer = 1;	// Fill now!
@@ -500,7 +504,7 @@ function ppprocessboardclick(boardyx) {
 	column = Math.abs(boardyx.substr(2,2));
 
 	// When the timer runs out it's game over man :)
-	if (!ppgameover) {
+	if (!ppgameover && !ppgamepaused) {
 		// Don't allow replacing of the end points.	
 		if (ppboardarray[row][column] > 1) {
 			// Place pipe piece from start of preview array.
@@ -590,7 +594,7 @@ function ppfillpipearray() {
 	var count = 0;
 	var temp = 0;
 	var swap = 0;
-		
+
 	// Fill pipe array with our recommended frequency.
 	nextpointer = ppfillpipearraypieces(2, 7, nextpointer);
 	nextpointer = ppfillpipearraypieces(3, 7, nextpointer);
@@ -737,6 +741,7 @@ function pauseGame() {
 	ppcleardeadpipesid.pause();
 	ppfillpipesid.pause();
 	ppflashhighscoreid.pause();
+	ppgamepaused=true;
 }
 
 function resumeGame() {
@@ -744,21 +749,43 @@ function resumeGame() {
 	ppcleardeadpipesid.resume();
 	ppfillpipesid.resume();
 	ppflashhighscoreid.resume();
+	ppgamepaused=false;
 }
 
+
+function help(show)
+{
+    if (show){
+        document.getElementById("playground").style.display="none";
+        document.getElementById("help").style.display="inline";
+    }
+    else    {
+        document.getElementById("playground").style.display="inline";
+        document.getElementById("help").style.display="none";
+    }
+}
+
+
 function Timer(action, delay) {
-    var timerId
-    var start
+    var timerId=null;
+    var start=null;
     var t_remaining = delay;
 
     this.resume = function() {
-     	window.clearTimeout(timerId);
-        start = new Date();
-        timerId = window.setTimeout(action, t_remaining);
+        if (timerId != null)
+     	    window.clearTimeout(timerId);
+     	if (t_remaining >= 0){
+			start = new Date();
+			timerId = window.setTimeout(action, t_remaining);
+        }
     };
     this.pause = function() {
-        window.clearTimeout(timerId);
-        t_remaining -= new Date() - start;
+        if (timerId != null)
+            window.clearTimeout(timerId);
+        if (start != null) {
+            t_remaining -= new Date() - start;
+            start=null;
+        }
     };
     this.resume();
 }
