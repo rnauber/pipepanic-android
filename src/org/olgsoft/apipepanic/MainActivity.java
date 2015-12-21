@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 
 public class MainActivity extends Activity {
@@ -27,6 +28,15 @@ public class MainActivity extends Activity {
     private DrawerLayout drawerLayout;
     private boolean helpActive = false;
 
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
+            return true;
+        }
+    }
 
     @SuppressLint({"SetJavaScriptEnabled"})
     @Override
@@ -85,6 +95,7 @@ public class MainActivity extends Activity {
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.setHorizontalScrollBarEnabled(false);
 
+        mWebView.setWebViewClient(new MyWebViewClient());
 
         // If there is a previous instance restore it in the webview
         if (savedInstanceState != null) {
@@ -92,6 +103,7 @@ public class MainActivity extends Activity {
         } else {
             mWebView.loadUrl("file:///android_asset/jspp/index.html");
         }
+
 
     }
 
