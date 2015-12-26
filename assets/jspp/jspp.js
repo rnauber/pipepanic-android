@@ -393,6 +393,19 @@ function ppcreatedeadpipesarray() {
 	alert("Game board array:-\n\n" + debugstring);
 */	
 }
+function setBoardImage(row,column,image)
+{
+			if (row < 10) row = "0" + row;
+			if (column < 10) column = "0" + column;
+			debug("row:"+row+"col:"+column+"  ")
+			//document.images["board" + row + column].src = image.src;
+			try{
+			document.getElementById("board" + row + column).style.backgroundImage="url("+image.src+")";
+}catch (e)
+{debug("row:"+row+"col:"+column+"  "+ e);
+};
+}
+
 
 function ppcleardeadpipes() {
 	var row = 0;
@@ -404,9 +417,7 @@ function ppcleardeadpipes() {
 		// Officially if the endpoint is unvisited it's dead, but we'll leave it onscreen anyway.
 		if (ppdeadpipesarray[ppcleardeadpipesy][ppcleardeadpipesx] == ppdeadpipeval && ppboardarray[ppcleardeadpipesy][ppcleardeadpipesx] != 1) {
 			// Erase dead pipe from the screen.
-			row = ppcleardeadpipesy; if (row < 10) row = "0" + row;
-			column = ppcleardeadpipesx; if (column < 10) column = "0" + column;
-			document.images["board" + row + column].src = ppblank.src;
+			setBoardImage(ppcleardeadpipesy,ppcleardeadpipesx,ppblank);
 			// Erase dead pipe from the board array.
 			ppboardarray[ppcleardeadpipesy][ppcleardeadpipesx] = ppnullpipeval;
 			ppscore = ppscore + ppdeadpipescore;
@@ -439,9 +450,7 @@ function ppfillpipes() {
 		for (colloop = 0; colloop < 11; colloop++) {
 			if (ppdeadpipesarray[rowloop][colloop] == ppfillpipespasscounter || ppdeadpipesarray[rowloop][colloop] - ppleakypipeval == ppfillpipespasscounter) {
 				// Draw filled pipe.
-				row = rowloop; if (row < 10) row = "0" + row;
-				column = colloop; if (column < 10) column = "0" + column;
-				document.images["board" + row + column].src = eval("pppipefull" + ppboardarray[rowloop][colloop]).src;
+				setBoardImage(rowloop, colloop, eval("pppipefull" + ppboardarray[rowloop][colloop]));
 				ppscore = ppscore + ppfilledpipescore;
 				if (ppboardarray[rowloop][colloop] == 1){
 				    ppscore += ppfilledendpointscore //bonus for filling the endpoint
@@ -494,21 +503,40 @@ function ppfillpipesnow() {
 	}
 }
 
+
+function debug(dbg)
+{
+document.getElementById("ppdebug").innerHTML=dbg;
+}
+function ppscale()
+{
+
+	var contentwidth=document.getElementById("contentplayarea").width
+    var hscale = window.innerWidth / contentwidth;
+
+	debug(" H:"+window.innerHeight+ "body:"+ contentwidth + "hscale" + hscale+"  W:"+window.innerWidth + "");
+
+
+}
+
 function ppprocessboardclick(boardyx) {
 	var count = 0;
 	var row = 0;
 	var column = 0;
-			
+
 	// Get and record yx.
-	row = Math.abs(boardyx.substr(0,2));
-	column = Math.abs(boardyx.substr(2,2));
+	row = Math.abs(boardyx.substr(5,2));
+	column = Math.abs(boardyx.substr(7,2));
+
+	debug(boardyx+" row:"+row+" col:"+column);
+	//ppscale();
 
 	// When the timer runs out it's game over man :)
 	if (!ppgameover && !ppgamepaused) {
 		// Don't allow replacing of the end points.	
 		if (ppboardarray[row][column] > 1) {
 			// Place pipe piece from start of preview array.
-			document.images["board" + boardyx.substr(0,2) + boardyx.substr(2,2)].src = eval("pppipe" + pppreviewarray[0]).src;
+			setBoardImage(row,column,eval("pppipe" + pppreviewarray[0]));
 			if (ppboardarray[row][column] != ppnullpipeval) {
 				ppscore = ppscore + pppipeoverwritescore;
 			} else {
@@ -547,9 +575,7 @@ function ppreset() {
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
 		for (colloop = 0; colloop < 11; colloop++) {
-			row = rowloop; if (row < 10) row = "0" + row;
-			column = colloop; if (column < 10) column = "0" + column;
-			document.images["board" + row + column].src = ppblank.src;
+			setBoardImage(row,column,ppblank)
 			ppboardarray[rowloop][colloop] = ppnullpipeval;	// Empty squares are ppnullpipeval.
 		}
 	}
@@ -561,10 +587,10 @@ function ppreset() {
 	// Place end points and record in game board array.
 	endpoint = Math.floor(Math.random() * 10);
 	ppboardarray[endpoint][0] = 1;	// yx
-	if (endpoint < 10) endpoint = "0" + endpoint; document.images["board" + endpoint + "00"].src = pppipe1.src;
+	setBoardImage(endpoint,0,pppipe1);
 	endpoint = Math.floor(Math.random() * 10);
 	ppboardarray[endpoint][10] = 0;	// yx
-	if (endpoint < 10) endpoint = "0" + endpoint; document.images["board" + endpoint + "10"].src = pppipe0.src;
+	setBoardImage(endpoint,10,pppipe0);
 
 	ppdisplayanumber(pphighscore, 4, "hscore");
 	ppscore = 0;
@@ -724,9 +750,9 @@ function ppdebugstuff() {
 			row = rowloop; if (row < 10) row = "0" + row;
 			column = colloop; if (column < 10) column = "0" + column;
 			if (ppboardarray[rowloop][colloop] != 0xff) {
-				document.images["board" + row + column].src = eval("pppipe" + ppboardarray[rowloop][colloop]).src;
+				setBoardImage(row,column, eval("pppipe" + ppboardarray[rowloop][colloop]));
 			} else {
-				document.images["board" + row + column].src = ppblank.src;
+				setBoardImage(row,column, ppblank.src);
 			}
 		}
 	}

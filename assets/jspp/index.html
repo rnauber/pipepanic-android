@@ -1,33 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
         "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
-
-<!-- JavaScript Pipepanic.
-Copyright (C) 2004 Thunor <thunorsif@hotmail.com>
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. -->
-
 <head>
-
     <title>Thunor: JavaScript Pipepanic</title>
-
     <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+
+    <!-- JavaScript Pipepanic.
+    Copyright (C) 2004 Thunor <thunorsif@hotmail.com>
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. -->
+
+
     <meta name="HandheldFriendly" content="True">
     <!--<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">-->
-    <meta name="viewport" content="width=760, height=600,initial-scale=0.6, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, height=device-height,initial-scale=0.6, user-scalable=yes"/>
     <script language="JavaScript" src="jspp.js" type="text/javascript"></script>
 
     <style type="text/css">
@@ -44,12 +42,39 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
         -webkit-touch-callout: none;
         -webkit-user-select: none; /* Disable selection/copy in UIWebView */
         }
+
+        .boardsquare{
+        //max-height: 64px;
+        //max-width: 64px;
+        min-height: 32px;
+        min-width: 32px;
+        height:100%;
+        height: 64px;
+        width:8.333333333%;
+        height:8.333333333%;
+        float:left;
+        background-color:#FF403D;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position:center;
+        border-style: solid;
+        border-width:thin;
+        border-color: #FFCC66;
+
+        }
+
+        .boardrow {
+        //width: 100%;
+
+        height:8.333333333%;
+         }
+
     </style>
 
 </head>
 
-<body style="background-color: #FFCC66;">
-<table cellpadding="0px" cellspacing="0px" class="contentplayarea" align="center">
+<body style="background-color: #FFCC66; height:100%;">
+<table cellpadding="0px" cellspacing="0px" class="contentplayarea" align="center" id="contentplayarea">
     <tr>
         <td>
             <!-- This is the game vvvv -->
@@ -163,10 +188,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
                             </tr>
                         </table>
                     </td>
-                    <td>
+                    <td width="100%" height="100%">
                         <div id="help" style="display:none">
-
-                            <!--<a href="javascript:help(0);">CLOSE</a>-->
 
                             <h2>About PipePanic</h2>
 
@@ -248,422 +271,173 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. 
 
 
                         </div>
-                        <div id="playground">
+                        <div id="playground" style="height:100%;width:100%">
+                                <div class="boardrow">
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1000"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1001"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1002"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1003"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1004"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1005"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1006"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1007"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1008"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1009"></div>
+                                    <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1010"></div>
+                                </div>
 
-                            <table style="background-image: url('images/jpipepanictile.jpg');"
-                                   width="550" cellpadding="0" cellspacing="0">
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('1000');"><img
-                                            src="images/blankx1y1.gif" name="board1000" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1001');"><img
-                                            src="images/blankx1y1.gif" name="board1001" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1002');"><img
-                                            src="images/blankx1y1.gif" name="board1002" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1003');"><img
-                                            src="images/blankx1y1.gif" name="board1003" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1004');"><img
-                                            src="images/blankx1y1.gif" name="board1004" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1005');"><img
-                                            src="images/blankx1y1.gif" name="board1005" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1006');"><img
-                                            src="images/blankx1y1.gif" name="board1006" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1007');"><img
-                                            src="images/blankx1y1.gif" name="board1007" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1008');"><img
-                                            src="images/blankx1y1.gif" name="board1008" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1009');"><img
-                                            src="images/blankx1y1.gif" name="board1009" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('1010');"><img
-                                            src="images/blankx1y1.gif" name="board1010" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0900');"><img
-                                            src="images/blankx1y1.gif" name="board0900" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0901');"><img
-                                            src="images/blankx1y1.gif" name="board0901" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0902');"><img
-                                            src="images/blankx1y1.gif" name="board0902" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0903');"><img
-                                            src="images/blankx1y1.gif" name="board0903" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0904');"><img
-                                            src="images/blankx1y1.gif" name="board0904" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0905');"><img
-                                            src="images/blankx1y1.gif" name="board0905" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0906');"><img
-                                            src="images/blankx1y1.gif" name="board0906" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0907');"><img
-                                            src="images/blankx1y1.gif" name="board0907" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0908');"><img
-                                            src="images/blankx1y1.gif" name="board0908" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0909');"><img
-                                            src="images/blankx1y1.gif" name="board0909" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0910');"><img
-                                            src="images/blankx1y1.gif" name="board0910" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0800');"><img
-                                            src="images/blankx1y1.gif" name="board0800" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0801');"><img
-                                            src="images/blankx1y1.gif" name="board0801" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0802');"><img
-                                            src="images/blankx1y1.gif" name="board0802" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0803');"><img
-                                            src="images/blankx1y1.gif" name="board0803" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0804');"><img
-                                            src="images/blankx1y1.gif" name="board0804" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0805');"><img
-                                            src="images/blankx1y1.gif" name="board0805" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0806');"><img
-                                            src="images/blankx1y1.gif" name="board0806" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0807');"><img
-                                            src="images/blankx1y1.gif" name="board0807" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0808');"><img
-                                            src="images/blankx1y1.gif" name="board0808" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0809');"><img
-                                            src="images/blankx1y1.gif" name="board0809" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0810');"><img
-                                            src="images/blankx1y1.gif" name="board0810" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0700');"><img
-                                            src="images/blankx1y1.gif" name="board0700" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0701');"><img
-                                            src="images/blankx1y1.gif" name="board0701" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0702');"><img
-                                            src="images/blankx1y1.gif" name="board0702" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0703');"><img
-                                            src="images/blankx1y1.gif" name="board0703" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0704');"><img
-                                            src="images/blankx1y1.gif" name="board0704" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0705');"><img
-                                            src="images/blankx1y1.gif" name="board0705" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0706');"><img
-                                            src="images/blankx1y1.gif" name="board0706" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0707');"><img
-                                            src="images/blankx1y1.gif" name="board0707" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0708');"><img
-                                            src="images/blankx1y1.gif" name="board0708" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0709');"><img
-                                            src="images/blankx1y1.gif" name="board0709" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0710');"><img
-                                            src="images/blankx1y1.gif" name="board0710" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0600');"><img
-                                            src="images/blankx1y1.gif" name="board0600" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0601');"><img
-                                            src="images/blankx1y1.gif" name="board0601" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0602');"><img
-                                            src="images/blankx1y1.gif" name="board0602" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0603');"><img
-                                            src="images/blankx1y1.gif" name="board0603" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0604');"><img
-                                            src="images/blankx1y1.gif" name="board0604" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0605');"><img
-                                            src="images/blankx1y1.gif" name="board0605" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0606');"><img
-                                            src="images/blankx1y1.gif" name="board0606" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0607');"><img
-                                            src="images/blankx1y1.gif" name="board0607" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0608');"><img
-                                            src="images/blankx1y1.gif" name="board0608" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0609');"><img
-                                            src="images/blankx1y1.gif" name="board0609" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0610');"><img
-                                            src="images/blankx1y1.gif" name="board0610" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0500');"><img
-                                            src="images/blankx1y1.gif" name="board0500" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0501');"><img
-                                            src="images/blankx1y1.gif" name="board0501" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0502');"><img
-                                            src="images/blankx1y1.gif" name="board0502" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0503');"><img
-                                            src="images/blankx1y1.gif" name="board0503" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0504');"><img
-                                            src="images/blankx1y1.gif" name="board0504" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0505');"><img
-                                            src="images/blankx1y1.gif" name="board0505" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0506');"><img
-                                            src="images/blankx1y1.gif" name="board0506" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0507');"><img
-                                            src="images/blankx1y1.gif" name="board0507" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0508');"><img
-                                            src="images/blankx1y1.gif" name="board0508" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0509');"><img
-                                            src="images/blankx1y1.gif" name="board0509" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0510');"><img
-                                            src="images/blankx1y1.gif" name="board0510" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0400');"><img
-                                            src="images/blankx1y1.gif" name="board0400" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0401');"><img
-                                            src="images/blankx1y1.gif" name="board0401" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0402');"><img
-                                            src="images/blankx1y1.gif" name="board0402" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0403');"><img
-                                            src="images/blankx1y1.gif" name="board0403" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0404');"><img
-                                            src="images/blankx1y1.gif" name="board0404" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0405');"><img
-                                            src="images/blankx1y1.gif" name="board0405" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0406');"><img
-                                            src="images/blankx1y1.gif" name="board0406" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0407');"><img
-                                            src="images/blankx1y1.gif" name="board0407" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0408');"><img
-                                            src="images/blankx1y1.gif" name="board0408" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0409');"><img
-                                            src="images/blankx1y1.gif" name="board0409" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0410');"><img
-                                            src="images/blankx1y1.gif" name="board0410" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0300');"><img
-                                            src="images/blankx1y1.gif" name="board0300" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0301');"><img
-                                            src="images/blankx1y1.gif" name="board0301" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0302');"><img
-                                            src="images/blankx1y1.gif" name="board0302" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0303');"><img
-                                            src="images/blankx1y1.gif" name="board0303" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0304');"><img
-                                            src="images/blankx1y1.gif" name="board0304" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0305');"><img
-                                            src="images/blankx1y1.gif" name="board0305" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0306');"><img
-                                            src="images/blankx1y1.gif" name="board0306" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0307');"><img
-                                            src="images/blankx1y1.gif" name="board0307" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0308');"><img
-                                            src="images/blankx1y1.gif" name="board0308" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0309');"><img
-                                            src="images/blankx1y1.gif" name="board0309" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0310');"><img
-                                            src="images/blankx1y1.gif" name="board0310" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0200');"><img
-                                            src="images/blankx1y1.gif" name="board0200" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0201');"><img
-                                            src="images/blankx1y1.gif" name="board0201" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0202');"><img
-                                            src="images/blankx1y1.gif" name="board0202" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0203');"><img
-                                            src="images/blankx1y1.gif" name="board0203" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0204');"><img
-                                            src="images/blankx1y1.gif" name="board0204" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0205');"><img
-                                            src="images/blankx1y1.gif" name="board0205" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0206');"><img
-                                            src="images/blankx1y1.gif" name="board0206" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0207');"><img
-                                            src="images/blankx1y1.gif" name="board0207" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0208');"><img
-                                            src="images/blankx1y1.gif" name="board0208" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0209');"><img
-                                            src="images/blankx1y1.gif" name="board0209" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0210');"><img
-                                            src="images/blankx1y1.gif" name="board0210" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0100');"><img
-                                            src="images/blankx1y1.gif" name="board0100" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0101');"><img
-                                            src="images/blankx1y1.gif" name="board0101" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0102');"><img
-                                            src="images/blankx1y1.gif" name="board0102" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0103');"><img
-                                            src="images/blankx1y1.gif" name="board0103" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0104');"><img
-                                            src="images/blankx1y1.gif" name="board0104" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0105');"><img
-                                            src="images/blankx1y1.gif" name="board0105" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0106');"><img
-                                            src="images/blankx1y1.gif" name="board0106" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0107');"><img
-                                            src="images/blankx1y1.gif" name="board0107" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0108');"><img
-                                            src="images/blankx1y1.gif" name="board0108" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0109');"><img
-                                            src="images/blankx1y1.gif" name="board0109" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0110');"><img
-                                            src="images/blankx1y1.gif" name="board0110" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="javascript:ppprocessboardclick('0000');"><img
-                                            src="images/blankx1y1.gif" name="board0000" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0001');"><img
-                                            src="images/blankx1y1.gif" name="board0001" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0002');"><img
-                                            src="images/blankx1y1.gif" name="board0002" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0003');"><img
-                                            src="images/blankx1y1.gif" name="board0003" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0004');"><img
-                                            src="images/blankx1y1.gif" name="board0004" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0005');"><img
-                                            src="images/blankx1y1.gif" name="board0005" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0006');"><img
-                                            src="images/blankx1y1.gif" name="board0006" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0007');"><img
-                                            src="images/blankx1y1.gif" name="board0007" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0008');"><img
-                                            src="images/blankx1y1.gif" name="board0008" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0009');"><img
-                                            src="images/blankx1y1.gif" name="board0009" width="50"
-                                            height="50" alt=""></a></td>
-                                    <td><a href="javascript:ppprocessboardclick('0010');"><img
-                                            src="images/blankx1y1.gif" name="board0010" width="50"
-                                            height="50" alt=""></a></td>
-                                </tr>
-                            </table>
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0900"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0901"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0902"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0903"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0904"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0905"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0906"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0907"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0908"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0909"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0910"></div>
+                            </div>
+
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0800"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0801"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0802"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0803"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0804"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0805"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0806"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0807"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0808"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0809"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0810"></div>
+                            </div>
+
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0700"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0701"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0702"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0703"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0704"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0705"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0706"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0707"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0708"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0709"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0710"></div>
+                            </div>
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0600"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0601"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0602"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0603"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0604"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0605"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0606"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0607"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0608"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0609"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0610"></div>
+                            </div>
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0500"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0501"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0502"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0503"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0504"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0505"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0506"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0507"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0508"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0509"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0510"></div>
+                            </div>
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0400"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0401"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0402"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0403"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0404"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0405"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0406"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0407"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0408"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0409"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0410"></div>
+                            </div>
+
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0300"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0301"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0302"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0303"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0304"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0305"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0306"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0307"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0308"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0309"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0310"></div>
+                            </div>
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0200"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0201"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0202"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0203"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0204"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0205"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0206"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0207"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0208"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0209"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0210"></div>
+                            </div>
+
+
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0100"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0101"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0102"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0103"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0104"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0105"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0106"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0107"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0108"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0109"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0110"></div>
+                            </div>
+
+                            <div class="boardrow">
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0000"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0001"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0002"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0003"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0004"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0005"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0006"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0007"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0008"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0009"></div>
+                                <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0010"></div>
+                            </div>
+
+
                         </div>
                     </td>
                 </tr>
             </table>
-            <script language="JavaScript" type="text/javascript">
-								<!--
-								if (ppdebug) document.write("<div align='center'><form name='ppdebugform'><input name='ppdebugnotes' type='text' value='' size='100'><\/form><\/div>");
-								//-->
-
-
-
-
-            </script>
-            <!-- This is the game ^^^^ -->
+            <div align='center' id="ppdebug"></div>
         </td>
     </tr>
 </table>
 
 
-<script language="JavaScript" type="text/javascript"><!--Initialise Pipepanic game-->
+<script language="JavaScript" type="text/javascript">
+    <!--Initialise Pipepanic game-->
 		pphighscore = window.localStorage.getItem("pphighscore");
 		ppreset();
-
-
-
-
 </script>
 <noscript></noscript>
 

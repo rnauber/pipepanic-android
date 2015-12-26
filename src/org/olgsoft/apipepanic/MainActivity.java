@@ -3,6 +3,7 @@ package org.olgsoft.apipepanic;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -21,6 +23,12 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
+
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static android.util.Log.*;
 
 public class MainActivity extends Activity {
 
@@ -116,18 +124,20 @@ public class MainActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-     /*   int CONTENT_HEIGHT = 40;
+/*
+        int CONTENT_HEIGHT = 40;
         int CONTENT_WIDTH = 750;
         int width = mWebView.getMeasuredWidth();
         int height = mWebView.getMeasuredHeight();
         if (height > 0) {
             float scale = Math.min((float) height / (float) CONTENT_HEIGHT,
                     (float) width / (float) CONTENT_WIDTH);
-            Toast.makeText(MainActivity.this, "H" + height + "W" + width +
-                    "scale" + scale, Toast.LENGTH_LONG).show();
             mWebView.setInitialScale(Math.round(scale * 100));
-        }*/
+            Logger.getAnonymousLogger().log(Level.ALL,
+                    "H" + height + "W" + width +
+                    "scale" + scale);
+        }
+ */
     }
 
     @Override
