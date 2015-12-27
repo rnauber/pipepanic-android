@@ -23,9 +23,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA. -->
 
-
     <meta name="HandheldFriendly" content="True">
-    <!--<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">-->
     <meta name="viewport"
           content="width=device-width, height=device-height,initial-scale=1, user-scalable=no"/>
     <script language="JavaScript" src="jspp.js" type="text/javascript"></script>
@@ -41,14 +39,15 @@
         height:100%;
         width:calc(98% / 6);
         float:left;
-        background-size: contains;
+        background-size: contain;
         background-repeat: no-repeat;
         background-position:center;
         }
 
         .number{
-        width:100%;
+        width:95%;
         height:calc(98% / 6);
+        margin: 0 auto;
         }
 
         .board {
@@ -106,10 +105,10 @@
         .heading{
         height:5%;
         width:95%;
-        background-size: contains;
+        margin: 0 auto;
+        background-size: contain;
         background-repeat: no-repeat;
         background-position:center;
-
         }
 
         .previewsquare{
@@ -120,11 +119,9 @@
         margin-bottom: 1%;
         margin-right: 1%;
         margin-left: 1%;
-        border-color: #FF403D;
+        outline-color: #000000;
+        outline-style: dotted;
         }
-
-
-
 
     </style>
 
@@ -133,34 +130,34 @@
 <body style="background-color: #FFCC66; height:98%;  width:98%;" onresize="ppscale()">
 <div class="controlarea">
 
-    <div class="heading" style="background-image: url('images/highscore.png')"></div>
-    <div class="number" style="position: relative; top: 1%; left: 20%;">
+    <div class="heading" style="background-image: url('images/highscore.png');"></div>
+    <div class="number">
+        <div class="digit" id="hscoresign"></div>
         <div class="digit" id="hscore1000"></div>
         <div class="digit" id="hscore100"></div>
         <div class="digit" id="hscore10"></div>
         <div class="digit" id="hscore1"></div>
-        <div class="digit" id="hscoresign"></div>
     </div>
 
     <div class="heading" style="background-image: url('images/score.png')"></div>
-    <div class="number" style="position: relative; top: 0; left: 20%;">
+    <div class="number">
+        <div class="digit" id="scoresign"></div>
         <div class="digit" id="score1000"></div>
         <div class="digit" id="score100"></div>
         <div class="digit" id="score10"></div>
         <div class="digit" id="score1"></div>
-        <div class="digit" id="scoresign"></div>
     </div>
 
     <div class="heading" style="background-image: url('images/time.png')"></div>
-    <div class="number" style="position: relative; top: 1%; left: 20%;">
+    <div class="number">
         <div class="digit"></div>
+        <div class="digit" id="timersign"></div>
         <div class="digit" id="timer100"></div>
         <div class="digit" id="timer10"></div>
         <div class="digit" id="timer1"></div>
-        <div class="digit" id="timersign"></div>
     </div>
 
-    <div class="number" style="position: relative; top: 1%; left: 10%;">
+    <div class="number">
         <div class="previewsquare" id="preview3" style="background-color:#BF9D5B;"></div>
         <div class="previewsquare" id="preview2" style="background-color:#D9A640;"></div>
         <div class="previewsquare" id="preview1" style="background-color:#FFBE37;"></div>
@@ -407,17 +404,13 @@
         one pipe to the next. The less pipes you waste through overwriting
         the higher your score will be.
     </p>
-
-
 </div>
 
-
+<!--Initialise Pipepanic game-->
 <script language="JavaScript" type="text/javascript">
-    <!--Initialise Pipepanic game-->
 		pphighscore = window.localStorage.getItem("pphighscore");
 		ppreset();
 		ppscale();
-
 </script>
 <noscript></noscript>
 

@@ -3,7 +3,6 @@ package org.olgsoft.apipepanic;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -13,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -24,11 +22,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 
-import java.io.OutputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static android.util.Log.*;
 
 public class MainActivity extends Activity {
 

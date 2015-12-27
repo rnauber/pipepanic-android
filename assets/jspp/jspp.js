@@ -448,6 +448,7 @@ function ppfillpipes() {
 	var row = 0; var column = 0;
 	var rowloop = 0; var colloop = 0;
 	var leakypipefound = false;
+	var leakypipefound = false;
 	var nomorepipes = true;
 
 	// Show all filled pipes onscreen for this passcounter.
@@ -480,7 +481,7 @@ function ppfillpipes() {
 		if (ppscore > pphighscore) {
 			pphighscore = ppscore;
 			ppdisplayanumber(pphighscore, 4, "hscore");
-			ppflashhighscoreid = new Timer("ppflashhighscore()", 0);
+			ppflashhighscoreid = new Timer("ppflashhighscore()", 0.1);
 			// Save the high score
 			window.localStorage.setItem("pphighscore", pphighscore);
 		}
@@ -520,7 +521,7 @@ function ppscale()
 	var boarddim=Math.min(width, height);
 	board.style.width=boarddim+"px";
 	board.style.height=boarddim+"px";
-	debug("w:"+width+" h:"+ height);
+	//debug("w:"+width+" h:"+ height);
 }
 
 function ppprocessboardclick(boardyx) {
@@ -528,13 +529,12 @@ function ppprocessboardclick(boardyx) {
 	var row = 0;
 	var column = 0;
 
-	ppscale();
 
 	// Get and record yx.
 	row = Math.abs(boardyx.substr(5,2));
 	column = Math.abs(boardyx.substr(7,2));
 
-	//debug(boardyx+" row:"+row+" col:"+column);
+	debug(boardyx+" row:"+row+" col:"+column);
 
 	// When the timer runs out it's game over man :)
 	if (!ppgameover && !ppgamepaused) {
@@ -558,7 +558,8 @@ function ppprocessboardclick(boardyx) {
 			pppreviewarray[3] = ppgetnextpipepiece();
 			setImage("preview3" ,eval("pppipe" + pppreviewarray[3]));
 		} else {
-			if (ppboardarray[row][column] == 0) ppfillpipesnow();
+			if (ppboardarray[row][column] == 0)
+				ppfillpipesnow();
 		}
 	}
 }
