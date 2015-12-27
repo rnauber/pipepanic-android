@@ -36,6 +36,7 @@ var ppdeadpipescore = -10;
 var ppfilledpipescore = 50;
 var ppfilledendpointscore = 250;
 var ppfillnowscore = 5;
+var ppflashhighscore_state=false;
 // --- Global variables. ---
 var pppreviewarray = new Array(3);
 var pppipearray = new Array(pppipearraysize);
@@ -65,7 +66,7 @@ for (ppcount = 0; ppcount < 11; ppcount++) {
 }
 
 // --- Load all images used within document. ---
-ppblank = new Image(); ppblank.src = "images/blankx1y1.gif";
+ppblank = "";
 
 pppipe0 = new Image(); pppipe0.src = "images/pipe0.gif";
 pppipe1 = new Image(); pppipe1.src = "images/pipe1.gif";
@@ -393,17 +394,21 @@ function ppcreatedeadpipesarray() {
 	alert("Game board array:-\n\n" + debugstring);
 */	
 }
+
+function setImage(id,image)
+{
+if (image=="")
+	document.getElementById(id).style.backgroundImage="none";
+else
+ 	document.getElementById(id).style.backgroundImage="url("+image.src+")";
+}
+
 function setBoardImage(row,column,image)
 {
 			if (row < 10) row = "0" + row;
 			if (column < 10) column = "0" + column;
-			debug("row:"+row+"col:"+column+"  ")
-			//document.images["board" + row + column].src = image.src;
-			try{
-			document.getElementById("board" + row + column).style.backgroundImage="url("+image.src+")";
-}catch (e)
-{debug("row:"+row+"col:"+column+"  "+ e);
-};
+			//debug("row:"+row+"col:"+column+"  ")
+			setImage("board" + row + column, image)
 }
 
 
@@ -483,14 +488,12 @@ function ppfillpipes() {
 }
 
 function ppflashhighscore() {
-	if (document.images["hscore1000"].src != ppblank.src) {
-		document.images["hscore1000"].src = ppblank.src;
-		document.images["hscore100"].src = ppblank.src;
-		document.images["hscore10"].src = ppblank.src;
-		document.images["hscore1"].src = ppblank.src;
-		document.images["hscoresign"].src = ppblank.src;
+	if (ppflashhighscore_state) {
+		ppdisplayanumber("", 4, "hscore");
+		ppflashhighscore_state=false;
 	} else {
 		ppdisplayanumber(pphighscore, 4, "hscore");
+		ppflashhighscore_state=true;
 	}
 	ppflashhighscoreid = new Timer("ppflashhighscore()", ppflashhighscoretimeout);
 }
@@ -506,17 +509,18 @@ function ppfillpipesnow() {
 
 function debug(dbg)
 {
-document.getElementById("ppdebug").innerHTML=dbg;
+if (ppdebug)
+	document.getElementById("ppdebug").innerHTML=dbg;
 }
 function ppscale()
 {
-
-	var contentwidth=document.getElementById("contentplayarea").width
-    var hscale = window.innerWidth / contentwidth;
-
-	debug(" H:"+window.innerHeight+ "body:"+ contentwidth + "hscale" + hscale+"  W:"+window.innerWidth + "");
-
-
+	var board = document.getElementById("playground");
+	var width = board.offsetWidth;
+	var height = board.offsetHeight;
+	var boarddim=Math.min(width, height);
+	board.style.width=boarddim+"px";
+	board.style.height=boarddim+"px";
+	debug("w:"+width+" h:"+ height);
 }
 
 function ppprocessboardclick(boardyx) {
@@ -524,12 +528,13 @@ function ppprocessboardclick(boardyx) {
 	var row = 0;
 	var column = 0;
 
+	ppscale();
+
 	// Get and record yx.
 	row = Math.abs(boardyx.substr(5,2));
 	column = Math.abs(boardyx.substr(7,2));
 
-	debug(boardyx+" row:"+row+" col:"+column);
-	//ppscale();
+	//debug(boardyx+" row:"+row+" col:"+column);
 
 	// When the timer runs out it's game over man :)
 	if (!ppgameover && !ppgamepaused) {
@@ -546,12 +551,12 @@ function ppprocessboardclick(boardyx) {
 			ppdisplayanumber(ppscore, 4, "score");
 			// Move all preview pieces down 1 place.
 			for (count = 0; count < 3; count++) {
-				pppreviewarray[count] = pppreviewarray[count + 1]	
-				document.images["preview" + count].src = eval("pppipe" + pppreviewarray[count]).src;
+				pppreviewarray[count] = pppreviewarray[count + 1]
+				setImage("preview" + count,eval("pppipe" + pppreviewarray[count]));
 			}
 			// Add a new preview piece at the end.
 			pppreviewarray[3] = ppgetnextpipepiece();
-			document.images["preview3"].src = eval("pppipe" + pppreviewarray[3]).src;
+			setImage("preview3" ,eval("pppipe" + pppreviewarray[3]));
 		} else {
 			if (ppboardarray[row][column] == 0) ppfillpipesnow();
 		}
@@ -575,14 +580,14 @@ function ppreset() {
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
 		for (colloop = 0; colloop < 11; colloop++) {
-			setBoardImage(row,column,ppblank)
+			setBoardImage(rowloop,colloop,ppblank)
 			ppboardarray[rowloop][colloop] = ppnullpipeval;	// Empty squares are ppnullpipeval.
 		}
 	}
 	// Setup and initialise preview pieces/array.
 	for (count = 0; count < 4; count++) {
 		pppreviewarray[count] = ppgetnextpipepiece();
-		document.images["preview" + count].src = eval("pppipe" + pppreviewarray[count]).src;
+		setImage("preview" + count,eval("pppipe" + pppreviewarray[count]));
 	}
 	// Place end points and record in game board array.
 	endpoint = Math.floor(Math.random() * 10);
@@ -602,6 +607,7 @@ function ppreset() {
 	ppgametimer = ppgametimerseconds;
 	ppdisplayanumber(ppgametimer, 3, "timer");
 	ppgametimerid = new Timer("ppdecgametimer()", 1000);
+
 }
 
 function ppgetnextpipepiece() {
@@ -677,27 +683,39 @@ function ppdisplayanumber(number, digits, target) {
 	var units100s = 0;
 	var units10s = 0;
 	var units1s = 0;
+	if (number=="")
+	{
+	setImage(target + "sign", ppblank);
+	if (digits >= 4)
+		setImage(target + "1000", ppblank);
+	if (digits >= 3)
+		setImage(target + "100", ppblank);
+	if (digits >= 2)
+		setImage(target + "10", ppblank);
+	setImage(target + "1", ppblank);
+	return;
+	}
 
 	if (number < 0) {
 		number = Math.abs(number);
-		document.images[target + "sign"].src = ppminus.src;
+		setImage(target + "sign", ppminus);
 	} else {
-		document.images[target + "sign"].src = ppblank.src;
+		setImage(target + "sign", ppblank);
 	}
 	if (digits >= 4) {
 		units1000s =  Math.floor(number % 10000 / 1000);	// 'mod'ed to isolate the units.
-		document.images[target + "1000"].src = eval("ppnumber" + units1000s + ".src");
+		setImage(target + "1000", eval("ppnumber" + units1000s));
 	}
 	if (digits >= 3) {
 		units100s =  Math.floor(number % 1000 / 100);
-		document.images[target + "100"].src = eval("ppnumber" + units100s + ".src");
+		setImage(target + "100", eval("ppnumber" + units100s));
 	}
 	if (digits >= 2) {
 		units10s =  Math.floor(number % 100 / 10);
-		document.images[target + "10"].src = eval("ppnumber" + units10s + ".src");
+		setImage(target + "10", eval("ppnumber" + units10s));
 	}
 	units1s = Math.floor(number % 10);
-	document.images[target + "1"].src = eval("ppnumber" + units1s + ".src");
+	setImage(target + "1", eval("ppnumber" + units1s));
 }
 
 function ppdebugstuff() {
@@ -752,7 +770,7 @@ function ppdebugstuff() {
 			if (ppboardarray[rowloop][colloop] != 0xff) {
 				setBoardImage(row,column, eval("pppipe" + ppboardarray[rowloop][colloop]));
 			} else {
-				setBoardImage(row,column, ppblank.src);
+				setBoardImage(row,column, ppblank);
 			}
 		}
 	}
