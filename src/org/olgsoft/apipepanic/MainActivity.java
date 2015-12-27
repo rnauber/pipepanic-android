@@ -124,20 +124,6 @@ public class MainActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-/*
-        int CONTENT_HEIGHT = 40;
-        int CONTENT_WIDTH = 750;
-        int width = mWebView.getMeasuredWidth();
-        int height = mWebView.getMeasuredHeight();
-        if (height > 0) {
-            float scale = Math.min((float) height / (float) CONTENT_HEIGHT,
-                    (float) width / (float) CONTENT_WIDTH);
-            mWebView.setInitialScale(Math.round(scale * 100));
-            Logger.getAnonymousLogger().log(Level.ALL,
-                    "H" + height + "W" + width +
-                    "scale" + scale);
-        }
- */
     }
 
     @Override
