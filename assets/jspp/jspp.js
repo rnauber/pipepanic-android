@@ -18,7 +18,6 @@
 // --- Global constants. ---
 // --- Can't use 'const' here as IE doesn't like it so must use 'var' :s ---
 
-
 var ppgamepaused=false;
 var ppdebug = false;
 var ppgametimerseconds = 240;
@@ -515,13 +514,14 @@ if (ppdebug)
 }
 function ppscale()
 {
-	var board = document.getElementById("playground");
-	var width = board.offsetWidth;
-	var height = board.offsetHeight;
+	var board = document.getElementById("board");
+	var width = document.body.clientWidth - document.getElementById("controlarea").offsetWidth;
+    var height = document.body.clientHeight;
 	var boarddim=Math.min(width, height);
 	board.style.width=boarddim+"px";
 	board.style.height=boarddim+"px";
-	//debug("w:"+width+" h:"+ height);
+	document.getElementById("controlarea").style.height=boarddim+"px";
+	debug("w:"+width+" h:"+ height);
 }
 
 function ppprocessboardclick(boardyx) {
@@ -534,7 +534,7 @@ function ppprocessboardclick(boardyx) {
 	row = Math.abs(boardyx.substr(5,2));
 	column = Math.abs(boardyx.substr(7,2));
 
-	debug(boardyx+" row:"+row+" col:"+column);
+	//debug(boardyx+" row:"+row+" col:"+column);
 
 	// When the timer runs out it's game over man :)
 	if (!ppgameover && !ppgamepaused) {
@@ -684,17 +684,17 @@ function ppdisplayanumber(number, digits, target) {
 	var units100s = 0;
 	var units10s = 0;
 	var units1s = 0;
-	if (number=="")
-	{
-	setImage(target + "sign", ppblank);
-	if (digits >= 4)
-		setImage(target + "1000", ppblank);
-	if (digits >= 3)
-		setImage(target + "100", ppblank);
-	if (digits >= 2)
-		setImage(target + "10", ppblank);
-	setImage(target + "1", ppblank);
-	return;
+
+	if (number==="")	{
+		setImage(target + "sign", ppblank);
+		if (digits >= 4)
+			setImage(target + "1000", ppblank);
+		if (digits >= 3)
+			setImage(target + "100", ppblank);
+		if (digits >= 2)
+			setImage(target + "10", ppblank);
+		setImage(target + "1", ppblank);
+		return;
 	}
 
 	if (number < 0) {
@@ -801,11 +801,11 @@ function resumeGame() {
 function help(show)
 {
     if (show){
-        document.getElementById("playground").style.display="none";
+        document.getElementById("board").style.display="none";
         document.getElementById("help").style.display="inline";
     }
     else    {
-        document.getElementById("playground").style.display="inline";
+        document.getElementById("board").style.display="inline";
         document.getElementById("help").style.display="none";
     }
 }

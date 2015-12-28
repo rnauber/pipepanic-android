@@ -75,7 +75,6 @@ public class MainActivity extends Activity {
                 setGameStatePaused(true);
             }
         });
-
         applyFullScreen(null);
 
         // Load webview with game
@@ -105,6 +104,7 @@ public class MainActivity extends Activity {
             mWebView.loadUrl("file:///android_asset/jspp/index.html");
         }
 
+        drawerLayout.openDrawer(Gravity.START);
 
     }
 

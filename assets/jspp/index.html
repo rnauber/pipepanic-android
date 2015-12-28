@@ -33,6 +33,7 @@
         * {
         -webkit-touch-callout: none;
         -webkit-user-select: none; /* Disable selection/copy in UIWebView */
+        box-sizing: border-box;
         }
 
         .digit{
@@ -41,7 +42,7 @@
         float:left;
         background-size: contain;
         background-repeat: no-repeat;
-        background-position:center;
+        background-position: center;
         }
 
         .number{
@@ -54,8 +55,8 @@
         outline-style: solid;
         outline-width: 0px;
         outline-color: #455372;
-        width:70vw;
-        height:95vh;
+        width:80%;
+        height:100%;
         float:left;
         background-repeat: repeat;
         background-position:center;
@@ -65,6 +66,7 @@
         padding-right: 0px;
         padding-bottom: 0px;
         padding-left: 0px;
+        margin: 0 auto;
         }
 
         .controlarea {
@@ -72,8 +74,8 @@
         outline-width: 0px;
         outline-color: #455372;
         border-color: #FFCC66;
-        height:95vh;
-        width:20vw;
+        height:100%;
+        width:20%;
         float:left;
         }
 
@@ -84,10 +86,6 @@
         outline-style: solid;
         outline-width: thin;
         outline-color: #FFCC66;
-        margin-top: 0%;
-        margin-bottom: 0%;
-        margin-right: 0%;
-        margin-left: 0%;
         }
 
         .boardrow {
@@ -99,7 +97,6 @@
         height:100%;
         width:calc(100% / 11);
         float:left;
-        //padding-bottom: calc(100% / 11);
         }
 
         .heading{
@@ -115,10 +112,7 @@
         padding-bottom: calc(98% / 5);
         width:calc(98% / 5);
         float:left;
-        margin-top: 1%;
-        margin-bottom: 1%;
-        margin-right: 1%;
-        margin-left: 1%;
+        margin: 1%;
         outline-color: #000000;
         outline-style: dotted;
         }
@@ -127,8 +121,8 @@
 
 </head>
 
-<body style="background-color: #FFCC66; height:98%;  width:98%;" onresize="ppscale()">
-<div class="controlarea">
+<body style="background-color: #FFCC66; height:100%; width:100%; margin:0% auto; border-style:solid;border-width:thick; border-color:transparent;" onresize="ppscale()">
+<div class="controlarea" id="controlarea">
 
     <div class="heading" style="background-image: url('images/highscore.png');"></div>
     <div class="number">
@@ -169,7 +163,7 @@
     <div align='center' id="ppdebug" style="position: relative; top: 10%; left: 10%;"></div>
 </div>
 
-<div id="playground" class="board">
+<div id="board" class="board">
     <div class="boardrow">
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1000"></div>
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1001"></div>

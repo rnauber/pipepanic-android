@@ -19,49 +19,64 @@
 
     <!-- The navigation drawer -->
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/message_view"
         android:layout_width="300dp"
         android:layout_height="fill_parent"
         android:layout_gravity="start"
+        android:background="#cc796131"
         android:gravity="start">
 
         <LinearLayout
-            android:layout_width="match_parent"
             android:id="@+id/message_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/welcome"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/primary_text_dark" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:src="@mipmap/ic_launcher" />
 
             <Button
                 android:id="@+id/newgame_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="newGame"
                 android:text="@string/startnewgame"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:onClick="newGame"/>
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <CheckBox
+                android:id="@+id/fullscreen_checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/toggle_fullscreen"
-                android:id="@+id/fullscreen_checkbox"
-                android:onClick="applyFullScreen"
-                android:checked="true"
                 android:layout_gravity="center"
+                android:checked="true"
+                android:onClick="applyFullScreen"
+                android:text="@string/toggle_fullscreen"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/primary_text_dark"
-                />
+                android:textColor="@android:color/primary_text_dark" />
 
             <Button
                 android:id="@+id/share_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="shareScreenShot"
                 android:text="@string/share_screenshot"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:onClick="shareScreenShot"/>
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/clear_highscore"
@@ -69,19 +84,18 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/clear_highscore"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <Button
                 android:id="@+id/about_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:onClick="showHelp"
                 android:text="@string/about"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:onClick="showHelp" />
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 </android.support.v4.widget.DrawerLayout>
