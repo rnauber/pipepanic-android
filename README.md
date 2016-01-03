@@ -1,9 +1,12 @@
 pipepanic-android
 ============
 
-This is an android port of the PipePanic game made by Thunor http://www.users.waitrose.com/~thunor/jspp/index.html
-based on 2048-android by Paul Sarbinowski (uberspot)  https://github.com/uberspot/2048-android .
+![Screenshot](screenshot.png)
+
+This is an android port of the [PipePanic](http://www.users.waitrose.com/~thunor/jspp/index.html) game made by Thunor 
+based on [2048-android](https://github.com/uberspot/2048-android) by uberspot.
 It gives you a launcher icon and allows offline play.
+You can get the the game at [fdroid](https://f-droid.org/repository/browse/?fdid=org.olgsoft.apipepanic)!
 
 Contributions are very welcome!
 
@@ -11,3 +14,5 @@ Contributions are very welcome!
 
 pipepanic-android is licensed under the [MIT license.](https://github.com/rnauber/pipepanic-android/blob/master/LICENSE)
 jspp is licensed under the [GPL license.](https://github.com/rnauber/pipepanic-android/blob/master/assets/jspp/COPYING)
+
+
