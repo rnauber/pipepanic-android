@@ -115,6 +115,8 @@ ppnumber8 = new Image(); ppnumber8.src = "images/8.gif";
 ppnumber9 = new Image(); ppnumber9.src = "images/9.gif";
 ppminus = new Image(); ppminus.src = "images/minus.gif";
 
+
+window.console.log("Page loaded");
 // ------------------------------------------------------------------
 // Functions
 // ------------------------------------------------------------------
@@ -509,8 +511,9 @@ function ppfillpipesnow() {
 
 function debug(dbg)
 {
-if (ppdebug)
-	document.getElementById("ppdebug").innerHTML=dbg;
+	if (ppdebug)
+		document.getElementById("ppdebug").innerHTML=dbg;
+	window.console.log(dbg);
 }
 function ppscale()
 {
@@ -521,7 +524,7 @@ function ppscale()
 	board.style.width=boarddim+"px";
 	board.style.height=boarddim+"px";
 	document.getElementById("controlarea").style.height=boarddim+"px";
-	debug("w:"+width+" h:"+ height);
+	debug("w:"+width+" h:"+ height + " board:"+boarddim);
 }
 
 function ppprocessboardclick(boardyx) {
@@ -571,6 +574,8 @@ function ppreset() {
 	var rowloop = 0;
 	var column = 0;
 	var row = 0;
+
+	debug("Reset game");
 					
 	// --- Clear any pending timed operations else unexpected things occur. ---
 	ppgametimerid.pause();
