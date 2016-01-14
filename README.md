@@ -1,7 +1,10 @@
 pipepanic-android
 ============
 
-![Screenshot](screenshot.png)
+<iframe src="https://cdn.rawgit.com/rnauber/pipepanic-android/master/assets/jspp/index.html" width="70%" height="50% id="game"></iframe>
+
+<a href="javascript:document.getElementById('game').contentWindow.ppreset();">new game</a>
+
 
 This is an android port of the [PipePanic](http://www.users.waitrose.com/~thunor/jspp/index.html) game made by Thunor 
 based on [2048-android](https://github.com/uberspot/2048-android) by uberspot.
