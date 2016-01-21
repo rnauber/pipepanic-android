@@ -612,7 +612,7 @@ function ppreset() {
 	// Set off the game timer.
 	ppgametimer = ppgametimerseconds;
 	ppdisplayanumber(ppgametimer, 3, "timer");
-	ppgametimerid = new Timer("ppdecgametimer()", 1000);
+	ppgametimerid = new TimerInterval("ppdecgametimer()", 1000);
 
 }
 
@@ -678,8 +678,7 @@ function ppdecgametimer() {
 		if (ppgametimer <= 0) {
 			ppcreatedeadpipesarray();
 			ppgameover = true;
-		} else {
-			ppgametimerid = new Timer("ppdecgametimer()", 1000);
+			ppgametimerid.stop();
 		}
 	}
 }
@@ -847,6 +846,36 @@ function Timer(action, delay) {
     };
     this.runnow = function() {
         this.didrun=true;
+        //debug("TIMER run:" + this.action);
+        if (this.action != null)
+            eval(this.action);
+    };
+    this.resume();
+}
+
+
+function TimerInterval(action, delay) {
+    this.timerId=null;
+    this.action = action;
+    this.interval = delay;
+    this.running=true;
+
+    //debug("create timer " + action + " " + delay );
+    this.resume = function() {
+        if (this.timerId != null)
+     	    window.clearTimeout(this.timerId);
+     	if (this.running ){
+			this.timerId = window.setInterval(this.runnow.bind(this), this.interval);
+        } 
+    };
+    this.pause = function() {
+        if (this.timerId != null)
+            window.clearInterval(this.timerId);
+    };
+    this.stop = function() {
+        this.running=false;
+    };
+    this.runnow = function() {
         //debug("TIMER run:" + this.action);
         if (this.action != null)
             eval(this.action);
