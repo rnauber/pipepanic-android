@@ -817,25 +817,39 @@ function help(show)
 
 
 function Timer(action, delay) {
-    var timerId=null;
-    var start=null;
-    var t_remaining = delay;
+    this.timerId=null;
+    this.start=null;
+    this.action=action;
+    this.t_remaining = delay;
+    this.didrun=false;
 
+    //debug("create timer " + action + " " + delay );
     this.resume = function() {
-        if (timerId != null)
-     	    window.clearTimeout(timerId);
-     	if (t_remaining >= 0){
-			start = new Date();
-			timerId = window.setTimeout(action, t_remaining);
+        if (this.timerId != null)
+     	    window.clearTimeout(this.timerId);
+        if (this.didrun || (this.action == null))
+            return;
+     	if (this.t_remaining >= 0){
+			this.start = new Date();
+			this.timerId = window.setTimeout(this.runnow.bind(this), this.t_remaining);
+        } else 
+        {
+            this.runnow();
         }
     };
     this.pause = function() {
-        if (timerId != null)
-            window.clearTimeout(timerId);
-        if (start != null) {
-            t_remaining -= new Date() - start;
-            start=null;
+        if (this.timerId != null)
+            window.clearTimeout(this.timerId);
+        if (this.start != null) {
+            this.t_remaining -= new Date() - this.start;
+            this.start=null;
         }
+    };
+    this.runnow = function() {
+        this.didrun=true;
+        //debug("TIMER run:" + this.action);
+        if (this.action != null)
+            eval(this.action);
     };
     this.resume();
 }

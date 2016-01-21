@@ -57,7 +57,6 @@ public class MainActivity extends Activity {
         }
 
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_main);
 
         // build a drawer
