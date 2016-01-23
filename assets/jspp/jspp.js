@@ -578,10 +578,10 @@ function ppreset() {
 	debug("Reset game");
 					
 	// --- Clear any pending timed operations else unexpected things occur. ---
-	ppgametimerid.pause();
-	ppcleardeadpipesid.pause();
-	ppfillpipesid.pause();
-	ppflashhighscoreid.pause();
+	ppgametimerid.stop();
+	ppcleardeadpipesid.stop();
+	ppfillpipesid.stop();
+	ppflashhighscoreid.stop();
 
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
@@ -849,6 +849,11 @@ function Timer(action, delay) {
         //debug("TIMER run:" + this.action);
         if (this.action != null)
             eval(this.action);
+    };
+    this.stop = function() {
+        if (this.timerId != null)
+            window.clearTimeout(this.timerId);
+        this.didrun=true;
     };
     this.resume();
 }
