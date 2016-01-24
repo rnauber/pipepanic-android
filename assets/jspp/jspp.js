@@ -1,5 +1,6 @@
 // JavaScript Pipepanic.
 // Copyright (C) 2004 Thunor <thunorsif@hotmail.com>
+// Copyright (C) 2016 Richard Nauber
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -18,7 +19,7 @@
 // --- Global constants. ---
 // --- Can't use 'const' here as IE doesn't like it so must use 'var' :s ---
 
-var ppgamepaused=false;
+
 var ppdebug = false;
 var ppgametimerseconds = 240;
 var pppipearraysize = 105;
@@ -35,23 +36,33 @@ var ppdeadpipescore = -10;
 var ppfilledpipescore = 50;
 var ppfilledendpointscore = 250;
 var ppfillnowscore = 5;
-var ppflashhighscore_state=false;
+var ppflashhighscore_state=-1;
+var ppGameTimerTickMS=200
+
+var ppgamepaused=false;
+
+ppGamestateEnum = {
+    BUILDING : 0,
+    CLEARINGDEAD : 1,
+    FILLING : 2,
+    DONE:3
+}
+
+var ppGameState= ppGamestateEnum.DONE;
+
 // --- Global variables. ---
 var pppreviewarray = new Array(3);
 var pppipearray = new Array(pppipearraysize);
 var pppipearraypointer = pppipearraysize;
 var ppgametimer = ppgametimerseconds;
 
-var ppgametimerid = new Timer(null,-1);
-var ppcleardeadpipesid =  new Timer(null,-1);
-var ppfillpipesid =  new Timer(null,-1);
-var ppflashhighscoreid =  new Timer(null,-1);
+var ppGameTickTimer = new TimerInterval("ppExecGameTick()",ppGameTimerTickMS);
+var ppGameTick=0;
 
 var ppcleardeadpipesy = 10; var ppcleardeadpipesx = 0;
 var ppfillpipespasscounter = ppfilledcounterbase;
 var pphighscore =0;
 var ppscore = 0;
-var ppgameover = false;
 // --- Create 2 dimensional array for the game board. ---
 var ppcount = 0;
 var ppboardarray = new Array(11);
@@ -120,6 +131,9 @@ window.console.log("Page loaded");
 // ------------------------------------------------------------------
 // Functions
 // ------------------------------------------------------------------
+
+
+
 
 function ppcreatedeadpipesarray() {
 	var count = 0;
@@ -370,7 +384,7 @@ function ppcreatedeadpipesarray() {
 
 	// Set off the clear dead pipes timer.
 	ppcleardeadpipesy = 10; ppcleardeadpipesx = 0;
-	ppcleardeadpipesid = new Timer("ppcleardeadpipes()", 0);
+	//ppcleardeadpipesid = new Timer("ppcleardeadpipes()", 0);
 	
 /*	
 	// Show messagebox with game board.
@@ -414,6 +428,9 @@ function setBoardImage(row,column,image)
 
 
 function ppcleardeadpipes() {
+ 	if (ppGameState!=ppGamestateEnum.CLEARINGDEAD)
+ 		return;
+
 	var row = 0;
 	var column = 0;
 	var deadpipefound = false;
@@ -437,15 +454,16 @@ function ppcleardeadpipes() {
 			if (ppcleardeadpipesy < 0) nomorepipes = true;
 		}
 	} while (!deadpipefound && !nomorepipes)
-	if (!nomorepipes) {
-		ppcleardeadpipesid = new Timer("ppcleardeadpipes()", ppcleardeadpipestimeout);
-	} else {
+	if (nomorepipes) {
 		ppfillpipespasscounter = ppfilledcounterbase;
-		ppfillpipesid = new Timer("ppfillpipes()", 0);
+		ppGameState=ppGamestateEnum.FILLING;
 	}
 }
 
 function ppfillpipes() {
+	 if (ppGameState!=ppGamestateEnum.FILLING)
+     		return;
+
 	var row = 0; var column = 0;
 	var rowloop = 0; var colloop = 0;
 	var leakypipefound = false;
@@ -476,35 +494,57 @@ function ppfillpipes() {
 	}
 	ppfillpipespasscounter++;
 	if (!leakypipefound && !nomorepipes) {
-		ppfillpipesid = new Timer("ppfillpipes()", ppfillpipestimeout);
 	} else {
+		ppGameState=ppGamestateEnum.DONE;
 		// Ok, last bit, high score.
 		if (ppscore > pphighscore) {
 			pphighscore = ppscore;
-			ppdisplayanumber(pphighscore, 4, "hscore");
-			ppflashhighscoreid = new Timer("ppflashhighscore()", 0.1);
+			ppflashhighscore_state=1;
 			// Save the high score
 			window.localStorage.setItem("pphighscore", pphighscore);
 		}
 	}
 }
 
-function ppflashhighscore() {
-	if (ppflashhighscore_state) {
-		ppdisplayanumber("", 4, "hscore");
-		ppflashhighscore_state=false;
-	} else {
-		ppdisplayanumber(pphighscore, 4, "hscore");
-		ppflashhighscore_state=true;
-	}
-	ppflashhighscoreid = new Timer("ppflashhighscore()", ppflashhighscoretimeout);
+// main dispacher routine: gets called periodically
+function ppExecGameTick()
+{
+
+	ppGameTick++;
+	//debug("tick "+ppGameTick);
+
+	gametimerperiod=Math.round(1000/ppGameTimerTickMS);
+	if (ppGameTick % gametimerperiod == 0)
+			ppdecgametimer();
+
+	ppcleardeadpipes();
+	ppfillpipes();
+
+	flashperiod=Math.round(500/ppGameTimerTickMS);
+	if (ppGameTick % flashperiod == 0)
+		ppflashhighscore();
 }
 
+
+
+function ppflashhighscore() {
+	if (ppflashhighscore_state < 0)
+		return;
+
+	if (ppflashhighscore_state) {
+		ppdisplayanumber("", 4, "hscore");
+		ppflashhighscore_state=0;
+	} else {
+		ppdisplayanumber(pphighscore, 4, "hscore");
+		ppflashhighscore_state=1;
+	}}
+
 function ppfillpipesnow() {
-	if (!ppgameover && !ppgamepaused) {
+	if (ppGameState==ppGamestateEnum.BUILDING) {
 		ppscore = ppscore + ppgametimer * ppfillnowscore;
 		ppdisplayanumber(ppscore, 4, "score");
-		ppgametimer = 1;	// Fill now!
+		ppcreatedeadpipesarray();
+		ppGameState=ppGamestateEnum.CLEARINGDEAD;	// Fill now!
 	}
 }
 
@@ -532,6 +572,10 @@ function ppprocessboardclick(boardyx) {
 	var row = 0;
 	var column = 0;
 
+	if (ppgamepaused)
+		return;
+	if (ppGameState!=ppGamestateEnum.BUILDING)
+		return;
 
 	// Get and record yx.
 	row = Math.abs(boardyx.substr(5,2));
@@ -539,31 +583,28 @@ function ppprocessboardclick(boardyx) {
 
 	//debug(boardyx+" row:"+row+" col:"+column);
 
-	// When the timer runs out it's game over man :)
-	if (!ppgameover && !ppgamepaused) {
-		// Don't allow replacing of the end points.	
-		if (ppboardarray[row][column] > 1) {
-			// Place pipe piece from start of preview array.
-			setBoardImage(row,column,eval("pppipe" + pppreviewarray[0]));
-			if (ppboardarray[row][column] != ppnullpipeval) {
-				ppscore = ppscore + pppipeoverwritescore;
-			} else {
-				ppscore = ppscore + pppipeplacementscore;
-			}
-			ppboardarray[row][column] = pppreviewarray[0];
-			ppdisplayanumber(ppscore, 4, "score");
-			// Move all preview pieces down 1 place.
-			for (count = 0; count < 3; count++) {
-				pppreviewarray[count] = pppreviewarray[count + 1]
-				setImage("preview" + count,eval("pppipe" + pppreviewarray[count]));
-			}
-			// Add a new preview piece at the end.
-			pppreviewarray[3] = ppgetnextpipepiece();
-			setImage("preview3" ,eval("pppipe" + pppreviewarray[3]));
+	// Don't allow replacing of the end points.
+	if (ppboardarray[row][column] > 1) {
+		// Place pipe piece from start of preview array.
+		setBoardImage(row,column,eval("pppipe" + pppreviewarray[0]));
+		if (ppboardarray[row][column] != ppnullpipeval) {
+			ppscore = ppscore + pppipeoverwritescore;
 		} else {
-			if (ppboardarray[row][column] == 0)
-				ppfillpipesnow();
+			ppscore = ppscore + pppipeplacementscore;
 		}
+		ppboardarray[row][column] = pppreviewarray[0];
+		ppdisplayanumber(ppscore, 4, "score");
+		// Move all preview pieces down 1 place.
+		for (count = 0; count < 3; count++) {
+			pppreviewarray[count] = pppreviewarray[count + 1]
+			setImage("preview" + count,eval("pppipe" + pppreviewarray[count]));
+		}
+		// Add a new preview piece at the end.
+		pppreviewarray[3] = ppgetnextpipepiece();
+		setImage("preview3" ,eval("pppipe" + pppreviewarray[3]));
+	} else {
+		if (ppboardarray[row][column] == 0)
+			ppfillpipesnow();
 	}
 }
 
@@ -577,12 +618,6 @@ function ppreset() {
 
 	debug("Reset game");
 					
-	// --- Clear any pending timed operations else unexpected things occur. ---
-	ppgametimerid.stop();
-	ppcleardeadpipesid.stop();
-	ppfillpipesid.stop();
-	ppflashhighscoreid.stop();
-
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
 		for (colloop = 0; colloop < 11; colloop++) {
@@ -612,7 +647,8 @@ function ppreset() {
 	// Set off the game timer.
 	ppgametimer = ppgametimerseconds;
 	ppdisplayanumber(ppgametimer, 3, "timer");
-	ppgametimerid = new TimerInterval("ppdecgametimer()", 1000);
+
+	ppGameState= ppGamestateEnum.BUILDING;
 
 }
 
@@ -628,6 +664,7 @@ function ppgetnextpipepiece() {
 }
 
 function ppfillpipearray() {
+
 	var nextpointer = 0;
 	var count = 0;
 	var temp = 0;
@@ -672,15 +709,15 @@ function ppfillpipearraypieces(pipepiece, frequency, nextpointer) {
 }
 
 function ppdecgametimer() {
-	if (!ppgameover) {
-		ppgametimer--;
-		ppdisplayanumber(ppgametimer, 3, "timer");
-		if (ppgametimer <= 0) {
-			ppcreatedeadpipesarray();
-			ppgameover = true;
-			ppgametimerid.stop();
-		}
+	if (ppGameState != ppGamestateEnum.BUILDING)
+		return;
+
+	ppgametimer--;
+	ppdisplayanumber(ppgametimer, 3, "timer");
+	if (ppgametimer <= 0) {
+		ppfillpipesnow()
 	}
+
 }
 
 function ppdisplayanumber(number, digits, target) {
@@ -782,22 +819,16 @@ function ppdebugstuff() {
 }
 
 function resetHighscore() {
-		    window.localStorage.setItem("pphighscore", 0);
+	window.localStorage.setItem("pphighscore", 0);
 }
 
 function pauseGame() {
-	ppgametimerid.pause();
-	ppcleardeadpipesid.pause();
-	ppfillpipesid.pause();
-	ppflashhighscoreid.pause();
+	ppGameTickTimer.pause();
 	ppgamepaused=true;
 }
 
 function resumeGame() {
-	ppgametimerid.resume();
-	ppcleardeadpipesid.resume();
-	ppfillpipesid.resume();
-	ppflashhighscoreid.resume();
+	ppGameTickTimer.resume();
 	ppgamepaused=false;
 }
 
@@ -815,49 +846,6 @@ function help(show)
 }
 
 
-function Timer(action, delay) {
-    this.timerId=null;
-    this.start=null;
-    this.action=action;
-    this.t_remaining = delay;
-    this.didrun=false;
-
-    //debug("create timer " + action + " " + delay );
-    this.resume = function() {
-        if (this.timerId != null)
-     	    window.clearTimeout(this.timerId);
-        if (this.didrun || (this.action == null))
-            return;
-     	if (this.t_remaining >= 0){
-			this.start = new Date();
-			this.timerId = window.setTimeout(this.runnow.bind(this), this.t_remaining);
-        } else 
-        {
-            this.runnow();
-        }
-    };
-    this.pause = function() {
-        if (this.timerId != null)
-            window.clearTimeout(this.timerId);
-        if (this.start != null) {
-            this.t_remaining -= new Date() - this.start;
-            this.start=null;
-        }
-    };
-    this.runnow = function() {
-        this.didrun=true;
-        //debug("TIMER run:" + this.action);
-        if (this.action != null)
-            eval(this.action);
-    };
-    this.stop = function() {
-        if (this.timerId != null)
-            window.clearTimeout(this.timerId);
-        this.didrun=true;
-    };
-    this.resume();
-}
-
 
 function TimerInterval(action, delay) {
     this.timerId=null;
@@ -865,11 +853,11 @@ function TimerInterval(action, delay) {
     this.interval = delay;
     this.running=true;
 
-    //debug("create timer " + action + " " + delay );
+    //debug("create interval timer " + action + " " + delay );
     this.resume = function() {
         if (this.timerId != null)
-     	    window.clearTimeout(this.timerId);
-     	if (this.running ){
+     	    window.clearInterval(this.timerId);
+     	if (this.running && (this.action != null)){
 			this.timerId = window.setInterval(this.runnow.bind(this), this.interval);
         } 
     };
@@ -881,7 +869,7 @@ function TimerInterval(action, delay) {
         this.running=false;
     };
     this.runnow = function() {
-        //debug("TIMER run:" + this.action);
+        //debug("TIMER interval srun:" + this.action);
         if (this.action != null)
             eval(this.action);
     };

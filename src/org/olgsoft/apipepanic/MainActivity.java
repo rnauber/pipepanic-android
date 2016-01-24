@@ -11,9 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,6 +39,10 @@ public class MainActivity extends Activity {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             startActivity(intent);
             return true;
+        }
+
+        public void onPageFinished(WebView view, String url) {
+            setGameStatePaused(true);
         }
     }
 
@@ -115,8 +119,7 @@ public class MainActivity extends Activity {
             mWebView.loadUrl("file:///android_asset/jspp/index.html");
         }
 
-        drawerLayout.openDrawer(Gravity.START);
-
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
 
@@ -132,8 +135,8 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!drawerLayout.isDrawerOpen(Gravity.START)) {
-            drawerLayout.openDrawer(Gravity.START);
+        if (!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.openDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -142,7 +145,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        drawerLayout.openDrawer(Gravity.START);
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 
 
@@ -194,7 +197,7 @@ public class MainActivity extends Activity {
 
     public void newGame(View v) {
         mWebView.loadUrl("javascript:ppreset()");
-        drawerLayout.closeDrawer(Gravity.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     public void setGameStatePaused(boolean paused) {
@@ -207,7 +210,7 @@ public class MainActivity extends Activity {
     public void showHelp(View v) {
         helpActive = true;
         mWebView.loadUrl("javascript:help(1)");
-        drawerLayout.closeDrawer(Gravity.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         setGameStatePaused(true);
 
     }
