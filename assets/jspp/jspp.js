@@ -619,6 +619,11 @@ function ppreset() {
 	var row = 0;
 
 	debug("Reset game");
+
+	// Stop blinking high score.
+    if (ppflashhighscore_state > -1) {
+        ppflashhighscore_state = -1;
+    }
 					
 	// Clear game board and array.
 	for (rowloop = 0; rowloop < 11; rowloop++) {
