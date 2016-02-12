@@ -603,8 +603,10 @@ function ppprocessboardclick(boardyx) {
 		pppreviewarray[3] = ppgetnextpipepiece();
 		setImage("preview3" ,eval("pppipe" + pppreviewarray[3]));
 	} else {
-		if (ppboardarray[row][column] == 0)
-			ppfillpipesnow();
+
+		//fill pipes if endpoint is clicked
+		//if (ppboardarray[row][column] == 0)
+		//	ppfillpipesnow();
 	}
 }
 
