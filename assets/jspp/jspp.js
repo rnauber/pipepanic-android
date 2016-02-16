@@ -558,7 +558,7 @@ function debug(dbg)
 function ppscale()
 {
 	var board = document.getElementById("board");
-	var width = document.body.clientWidth - document.getElementById("controlarea").offsetWidth;
+	var width = document.body.clientWidth - document.getElementById("controlarea").offsetWidth-2;
     var height = document.body.clientHeight;
 	var boarddim=Math.min(width, height);
 	board.style.width=boarddim+"px";
