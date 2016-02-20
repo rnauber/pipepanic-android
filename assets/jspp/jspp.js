@@ -39,6 +39,7 @@ var ppfillnowscore = 5;
 var ppflashhighscore_state=-1;
 var ppGameTimerTickMS=200;
 var ppRNG=null;
+var ppbattlemodeseed=0;
 
 var ppgamepaused=false;
 
@@ -499,9 +500,32 @@ function ppfillpipes() {
 			pphighscore = ppscore;
 			ppflashhighscore_state=1;
 			// Save the high score
-			window.localStorage.setItem("pphighscore", pphighscore);
+			ppSetHighscore(pphighscore, ppbattlemodeseed);
 		}
 	}
+}
+
+function resetHighscore() {
+	ppSetHighscore(0, ppbattlemodeseed);
+}
+
+function ppSetHighscore(value, battlemodeseed){
+	item="";
+	if (battlemodeseed > 0)
+		item="_"+battlemodeseed;
+
+	window.localStorage.setItem("pphighscore"+item, value);
+}
+
+function ppGetHighscore(battlemodeseed){
+	item="";
+	if (battlemodeseed > 0)
+		item="_"+battlemodeseed;
+
+	val = window.localStorage.getItem("pphighscore"+item);
+	if (val == null)
+		val=0;
+	return val;
 }
 
 // main dispacher routine: gets called periodically
@@ -628,10 +652,12 @@ function ppreset(battlemodeseed) {
     if ((battlemodeseed == undefined) || (battlemodeseed == 0) ) {// random game
     	ppRNG= new MersenneTwister();
     	document.getElementById("headline").innerHTML="";
+    	ppbattlemodeseed=0;
     }
     else// deterministic game "battle mode"
     {
-	    ppRNG= new MersenneTwister(battlemodeseed);
+    	ppbattlemodeseed=battlemodeseed;
+	    ppRNG= new MersenneTwister(ppbattlemodeseed);
 	    document.getElementById("headline").innerHTML="BATTLE " + battlemodeseed;
 	}
 
@@ -664,6 +690,7 @@ function ppreset(battlemodeseed) {
 	ppboardarray[endpoint][10] = 0;	// yx
 	setBoardImage(endpoint,10,pppipe0);
 
+	pphighscore=ppGetHighscore(ppbattlemodeseed);
 	ppdisplayanumber(pphighscore, 4, "hscore");
 	ppscore = 0;
 	ppdisplayanumber(ppscore, 4, "score");
@@ -844,9 +871,6 @@ function ppdebugstuff() {
 	}
 }
 
-function resetHighscore() {
-	window.localStorage.setItem("pphighscore", 0);
-}
 
 function pauseGame() {
 	ppGameTickTimer.pause();
