@@ -1,4 +1,5 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -57,6 +58,60 @@
                 android:onClick="newGame"
                 android:text="@string/startnewgame"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#aaFF403D"
+                >
+
+                <TextView
+                    android:id="@+id/battlemodetext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/primary_text_dark"
+                    android:gravity="center"
+                    />
+
+
+                <SeekBar
+                    android:id="@+id/battlemodeseed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="99"
+                    android:padding="16dp"
+                    android:layout_gravity="center"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    >
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="-"
+                        android:gravity="center"
+                        android:onClick="decrease_battlemode"
+                        tools:ignore="HardcodedText" />
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="+"
+                        android:gravity="center"
+                        android:onClick="increase_battlemode"
+                        tools:ignore="HardcodedText" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/fullscreen_checkbox"

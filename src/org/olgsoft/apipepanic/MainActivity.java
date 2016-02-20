@@ -24,6 +24,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
@@ -31,6 +33,7 @@ public class MainActivity extends Activity {
     private WebView mWebView;
     private DrawerLayout drawerLayout;
     private boolean helpActive = false;
+    private SeekBar battlemodeseed;
 
 
     private class MyWebViewClient extends WebViewClient {
@@ -120,9 +123,45 @@ public class MainActivity extends Activity {
         }
 
         drawerLayout.openDrawer(GravityCompat.START);
+
+        battlemodeseed = (SeekBar) findViewById(R.id.battlemodeseed);
+        battlemodeseed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                String val;
+
+                if (progress == 0)
+                    val = "off";
+                else
+                    val = String.valueOf(progress);
+
+                String text = String.format(getResources().getString(R.string.battlemode), val);
+                ((TextView) findViewById(R.id.battlemodetext)).setText(text);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        battlemodeseed.setProgress(1);// trigger handler
+        battlemodeseed.setProgress(0);
     }
 
+    public void increase_battlemode(View v)
+    {
+        battlemodeseed.setProgress(battlemodeseed.getProgress()+1);
+    }
 
+    public void decrease_battlemode(View v)
+    {
+        battlemodeseed.setProgress(battlemodeseed.getProgress()-1);
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         mWebView.saveState(outState);
@@ -196,7 +235,8 @@ public class MainActivity extends Activity {
     }
 
     public void newGame(View v) {
-        mWebView.loadUrl("javascript:ppreset()");
+        int battlemodeseed = ((SeekBar) findViewById(R.id.battlemodeseed)).getProgress();
+        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ")");
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
@@ -221,6 +261,5 @@ public class MainActivity extends Activity {
             helpActive = false;
         }
     }
-
 
 }

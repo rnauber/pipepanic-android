@@ -10,4 +10,5 @@
     <string name="about">About</string>
     <string name="startnewgame">Start a new game</string>
     <string name="welcome">Welcome to PipePanic, a plumbers favorite game!</string>
+    <string name="battlemode">BATTLE MODE: \n %s</string>
 </resources>

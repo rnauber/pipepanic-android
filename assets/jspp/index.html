@@ -26,7 +26,8 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport"
           content="width=device-width, height=device-height,initial-scale=1, user-scalable=no"/>
-    <script language="JavaScript" src="jspp.js" type="text/javascript"></script>
+   <script language="JavaScript" src="mersenne-twister.js" type="text/javascript"></script>
+   <script language="JavaScript" src="jspp.js" type="text/javascript"></script>
 
     <style type="text/css">
 
@@ -122,6 +123,24 @@
             outline-style: dotted;
         }
 
+        .headline{
+            position:relative;
+            top:0px;
+            left:0px;
+            bottom:0px;
+            right:0px;
+            color: rgba(255,255,255,0.4);
+            font-size:xx-large;
+            font-weight: bold;
+            font-family: "sans-serif";
+            text-align: center;
+            z-index: 10;
+            height:0px;
+            overflow:visible;
+            pointer-events:none;
+            background:none !important;
+        }
+
     </style>
 
 </head>
@@ -168,8 +187,10 @@
     <div align='center' id="ppdebug" style="position: relative; top: 10%; left: 10%;"></div>
 </div>
 
+
 <div id="board" class="board">
     <div class="boardrow">
+        <div id="headline" class="headline"></div>
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1000"></div>
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1001"></div>
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board1002"></div>
@@ -320,7 +341,6 @@
         <div class="boardsquare" onclick="ppprocessboardclick(this.id)" id="board0010"></div>
     </div>
 
-
 </div>
 
 
@@ -402,6 +422,16 @@
         appear on the preview bar, rather than simply attempting to connect
         one pipe to the next. The less pipes you waste through overwriting
         the higher your score will be.
+    </p>
+
+
+    <h3>Battle Mode</h3>
+
+    <p>
+        If you feel competitive, you can battle with others in "BATTLE MODE"!
+        Simply choose the same battle number (seed) and then you will get the
+        exact same sequence of pipes. So no one can blame a low score on just
+        bad luck :)
     </p>
 </div>
 

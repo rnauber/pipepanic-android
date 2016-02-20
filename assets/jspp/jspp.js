@@ -37,7 +37,8 @@ var ppfilledpipescore = 50;
 var ppfilledendpointscore = 250;
 var ppfillnowscore = 5;
 var ppflashhighscore_state=-1;
-var ppGameTimerTickMS=200
+var ppGameTimerTickMS=200;
+var ppRNG=null;
 
 var ppgamepaused=false;
 
@@ -52,8 +53,7 @@ var ppGameState= ppGamestateEnum.DONE;
 
 // --- Global variables. ---
 var pppreviewarray = new Array(3);
-var pppipearray = new Array(pppipearraysize);
-var pppipearraypointer = pppipearraysize;
+var pppipearraypointer = null;
 var ppgametimer = ppgametimerseconds;
 
 var ppGameTickTimer = new TimerInterval("ppExecGameTick()",ppGameTimerTickMS);
@@ -382,10 +382,8 @@ function ppcreatedeadpipesarray() {
 		}
 	}
 
-	// Set off the clear dead pipes timer.
+	// Preparing clear dead pipes 
 	ppcleardeadpipesy = 10; ppcleardeadpipesx = 0;
-	//ppcleardeadpipesid = new Timer("ppcleardeadpipes()", 0);
-	
 /*	
 	// Show messagebox with game board.
 	var debugstring = "";
@@ -565,6 +563,9 @@ function ppscale()
 	board.style.height=boarddim+"px";
 	document.getElementById("controlarea").style.height=boarddim+"px";
 	debug("w:"+width+" h:"+ height + " board:"+boarddim);
+
+
+	document.getElementById("headline").style.fontSize=boarddim/11+"px";
 }
 
 function ppprocessboardclick(boardyx) {
@@ -610,7 +611,7 @@ function ppprocessboardclick(boardyx) {
 	}
 }
 
-function ppreset() {
+function ppreset(battlemodeseed) {
 	var count = 0;
 	var endpoint = 0;
 	var colloop = 0;
@@ -619,6 +620,24 @@ function ppreset() {
 	var row = 0;
 
 	debug("Reset game");
+
+	ppGameTickTimer.pause();
+    ppGameTick=0;  
+
+    //seed the RNG
+    if ((battlemodeseed == undefined) || (battlemodeseed == 0) ) {// random game
+    	ppRNG= new MersenneTwister();
+    	document.getElementById("headline").innerHTML="";
+    }
+    else// deterministic game "battle mode"
+    {
+	    ppRNG= new MersenneTwister(battlemodeseed);
+	    document.getElementById("headline").innerHTML="BATTLE " + battlemodeseed;
+	}
+
+    //clear pppipearray
+    pppipearray = new Array(pppipearraysize);
+    pppipearraypointer = pppipearraysize;
 
 	// Stop blinking high score.
     if (ppflashhighscore_state > -1) {
@@ -638,10 +657,10 @@ function ppreset() {
 		setImage("preview" + count,eval("pppipe" + pppreviewarray[count]));
 	}
 	// Place end points and record in game board array.
-	endpoint = Math.floor(Math.random() * 10);
+	endpoint = Math.floor(ppRNG.random() * 10);
 	ppboardarray[endpoint][0] = 1;	// yx
 	setBoardImage(endpoint,0,pppipe1);
-	endpoint = Math.floor(Math.random() * 10);
+	endpoint = Math.floor(ppRNG.random() * 10);
 	ppboardarray[endpoint][10] = 0;	// yx
 	setBoardImage(endpoint,10,pppipe0);
 
@@ -649,13 +668,13 @@ function ppreset() {
 	ppscore = 0;
 	ppdisplayanumber(ppscore, 4, "score");
 	
-	ppgameover = false;
-	
 	// Set off the game timer.
 	ppgametimer = ppgametimerseconds;
 	ppdisplayanumber(ppgametimer, 3, "timer");
 
 	ppGameState= ppGamestateEnum.BUILDING;
+    ppGameTickTimer.resume();
+    ppgamepaused=false;
 
 }
 
@@ -699,7 +718,7 @@ function ppfillpipearray() {
 	// is set as a constant and will need to be adjusted accordingly.
 	for (count = 0; count < pppipearraysize; count++) {
 		temp = pppipearray[count];
-		swap = Math.floor(Math.random() * (pppipearraysize - 1));
+		swap = Math.floor(ppRNG.random() * (pppipearraysize - 1));
 		pppipearray[count] = pppipearray[swap];
 		pppipearray[swap] = temp;
 	}
@@ -722,7 +741,7 @@ function ppdecgametimer() {
 	ppgametimer--;
 	ppdisplayanumber(ppgametimer, 3, "timer");
 	if (ppgametimer <= 0) {
-		ppfillpipesnow()
+		ppfillpipesnow();
 	}
 
 }
