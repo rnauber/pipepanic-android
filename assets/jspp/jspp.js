@@ -23,23 +23,25 @@
 var ppdebug = false;
 var ppgametimerseconds = 240;
 var pppipearraysize = 105;
-var ppcleardeadpipestimeout = 150;
-var ppflashhighscoretimeout = 500;
-var ppfillpipestimeout = 200;
+
 var ppfilledcounterbase = 20;
 var ppleakypipeval = 200;
 var ppnullpipeval = 0x1ff;
 var ppdeadpipeval = 0x1fd;
+
+//scoring
 var pppipeplacementscore = 10;
 var pppipeoverwritescore = -10;
 var ppdeadpipescore = -10;
 var ppfilledpipescore = 50;
 var ppfilledendpointscore = 250;
 var ppfillnowscore = 5;
+
 var ppflashhighscore_state=-1;
 var ppGameTimerTickMS=200;
 var ppRNG=null;
 var ppbattlemodeseed=0;
+var ppIndicateScore=true;
 
 var ppgamepaused=false;
 
@@ -401,12 +403,16 @@ else
  	document.getElementById(id).style.backgroundImage="url("+image.src+")";
 }
 
+
+function findBoardElId(row,column){
+	if (row < 10) row = "0" + row;
+	if (column < 10) column = "0" + column;
+    return "board" + row + column;
+}
+
 function setBoardImage(row,column,image)
 {
-			if (row < 10) row = "0" + row;
-			if (column < 10) column = "0" + column;
-			//debug("row:"+row+"col:"+column+"  ")
-			setImage("board" + row + column, image)
+	setImage(findBoardElId(row,column), image);
 }
 
 
@@ -426,8 +432,7 @@ function ppcleardeadpipes() {
 			setBoardImage(ppcleardeadpipesy,ppcleardeadpipesx,ppblank);
 			// Erase dead pipe from the board array.
 			ppboardarray[ppcleardeadpipesy][ppcleardeadpipesx] = ppnullpipeval;
-			ppscore = ppscore + ppdeadpipescore;
-			ppdisplayanumber(ppscore, 4, "score");
+			ppUpdateGameScore(ppdeadpipescore,ppGameTimerTickMS*4,ppcleardeadpipesy,ppcleardeadpipesx);
 			deadpipefound = true;
 		}
 		// Work our way from top left to bottom right (board is upside down remember).
@@ -459,11 +464,10 @@ function ppfillpipes() {
 			if (ppdeadpipesarray[rowloop][colloop] == ppfillpipespasscounter || ppdeadpipesarray[rowloop][colloop] - ppleakypipeval == ppfillpipespasscounter) {
 				// Draw filled pipe.
 				setBoardImage(rowloop, colloop, eval("pppipefull" + ppboardarray[rowloop][colloop]));
-				ppscore = ppscore + ppfilledpipescore;
+			    ppUpdateGameScore(ppfilledpipescore,ppGameTimerTickMS*4,rowloop,colloop);
 				if (ppboardarray[rowloop][colloop] == 1){
-				    ppscore += ppfilledendpointscore //bonus for filling the endpoint
+                    ppUpdateGameScore(ppfilledendpointscore,ppGameTimerTickMS*4,rowloop,colloop);//bonus for filling the endpoint
                 }
-				ppdisplayanumber(ppscore, 4, "score");
 				// Is it a leaky pipe? If so break out of both for-next loops.
 				if (ppdeadpipesarray[rowloop][colloop] >= ppfilledcounterbase + ppleakypipeval) {
 					leakypipefound = true;
@@ -512,6 +516,62 @@ function ppGetHighscore(battlemodeseed){
 	return val;
 }
 
+function ppUpdateGameScore(diff,displayms,row,col ){
+	ppscore = ppscore + diff;
+	ppdisplayanumber(ppscore, 4, "score");
+    if (displayms > 0){
+        if ((row >= 0) && (col >= 0))
+            el =  document.getElementById(findBoardElId(row,col));
+        else 
+            el = document.getElementById("timer1");
+
+        var marker = document.createElement("div"); 
+        marker.className = "scoreMarker";
+
+
+        if (diff > 0){
+            marker.style.backgroundColor="#3CB93C";
+            text="+"+diff;
+        }
+        else{
+            marker.style.backgroundColor="#B93C3C"   ;
+            text=""+diff;
+         }
+
+		toppos=el.offsetTop - el.offsetHeight * 0.7;
+		if (toppos < 0)
+			toppos=el.offsetTop - el.offsetHeight * 0.1;
+
+		leftpos=el.offsetLeft + el.offsetWidth * 0.7;
+		width=el.offsetHeight * 1;
+		height=el.offsetHeight * 0.7;
+		if (text.length > 3)
+			fontsize = el.offsetHeight * 0.25;
+		else
+			fontsize = el.offsetHeight * 0.4;
+		paddingTop = el.offsetHeight * 0.2;
+
+		marker.style.top =""+toppos+"px";
+		marker.style.left=""+leftpos+"px";
+		marker.style.width=""+width+"px";
+		marker.style.height=""+height+"px";
+		marker.style.fontSize=""+fontsize+"px";
+		marker.style.paddingTop=""+paddingTop+"px";
+
+        var markertext = document.createTextNode(text);  
+        marker.appendChild(markertext); 
+                            
+        document.body.appendChild(marker);
+
+		window.setTimeout(function(){
+                              marker.outerHTML = "";
+                          }.bind(marker),displayms)
+
+        
+    }
+}
+
+
 // main dispacher routine: gets called periodically
 function ppExecGameTick()
 {
@@ -547,9 +607,8 @@ function ppflashhighscore() {
 
 function ppfillpipesnow() {
 	if (ppGameState==ppGamestateEnum.BUILDING) {
-		ppscore = ppscore + ppgametimer * ppfillnowscore;
-		ppdisplayanumber(ppscore, 4, "score");
-		ppcreatedeadpipesarray();
+        ppUpdateGameScore(ppgametimer * ppfillnowscore,1500,-1,-1);
+ 		ppcreatedeadpipesarray();
 		ppGameState=ppGamestateEnum.CLEARINGDEAD;	// Fill now!
 	}
 }
@@ -622,12 +681,11 @@ function ppprocessboardclick(boardyx) {
 		// Place pipe piece from start of preview array.
 		setBoardImage(row,column,eval("pppipe" + pppreviewarray[0]));
 		if (ppboardarray[row][column] != ppnullpipeval) {
-			ppscore = ppscore + pppipeoverwritescore;
+            ppUpdateGameScore(pppipeoverwritescore,800*ppIndicateScore,row,column);
 		} else {
-			ppscore = ppscore + pppipeplacementscore;
+            ppUpdateGameScore(pppipeplacementscore,800*ppIndicateScore,row,column);
 		}
 		ppboardarray[row][column] = pppreviewarray[0];
-		ppdisplayanumber(ppscore, 4, "score");
 		// Move all preview pieces down 1 place.
 		for (count = 0; count < 3; count++) {
 			pppreviewarray[count] = pppreviewarray[count + 1]
@@ -642,6 +700,11 @@ function ppprocessboardclick(boardyx) {
 		//if (ppboardarray[row][column] == 0)
 		//	ppfillpipesnow();
 	}
+}
+
+function ppToggleScoreIndication()
+{
+	ppIndicateScore = ! ppIndicateScore;
 }
 
 function ppreset(battlemodeseed) {
