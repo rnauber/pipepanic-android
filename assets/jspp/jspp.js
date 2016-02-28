@@ -27,9 +27,9 @@ var ppcleardeadpipestimeout = 150;
 var ppflashhighscoretimeout = 500;
 var ppfillpipestimeout = 200;
 var ppfilledcounterbase = 20;
-var ppleakypipeval = +50;
-var ppnullpipeval = 0xff;
-var ppdeadpipeval = 0xfd;
+var ppleakypipeval = 200;
+var ppnullpipeval = 0x1ff;
+var ppdeadpipeval = 0x1fd;
 var pppipeplacementscore = 10;
 var pppipeoverwritescore = -10;
 var ppdeadpipescore = -10;
@@ -385,28 +385,12 @@ function ppcreatedeadpipesarray() {
 
 	// Preparing clear dead pipes 
 	ppcleardeadpipesy = 10; ppcleardeadpipesx = 0;
-/*	
-	// Show messagebox with game board.
-	var debugstring = "";
-	for (rowloop = 0; rowloop < 11; rowloop++) {
-		for (colloop = 0; colloop < 11; colloop++) {
-			switch (ppdeadpipesarray[rowloop][colloop]) {
-				case 0xff :			
-					debugstring = debugstring + "FF|";
-					break;			
-				case 0xff :			
-					debugstring = debugstring + "FE|";
-					break;			
-				default :
-					if (ppdeadpipesarray[rowloop][colloop] < 10) debugstring = debugstring + "0";
-					debugstring = debugstring + ppdeadpipesarray[rowloop][colloop] + "|";
-					break;			
-			}
-		}
-		debugstring = debugstring + "\n";
-	}
-	alert("Game board array:-\n\n" + debugstring);
-*/	
+
+	debug("Board:<br>")
+	debug_array(ppboardarray);
+	debug("Dead pipes:<br>")
+    debug_array(ppdeadpipesarray)
+
 }
 
 function setImage(id,image)
@@ -573,10 +557,35 @@ function ppfillpipesnow() {
 
 function debug(dbg)
 {
-	if (ppdebug)
-		document.getElementById("ppdebug").innerHTML=dbg;
+	document.getElementById("ppdebug").innerHTML=document.getElementById("ppdebug").innerHTML
+		+ "<p>" + dbg+"</p>";
 	window.console.log(dbg);
 }
+
+function debug_array(a)
+{
+	var debugstring = "";
+	for (rowloop = 0; rowloop < 11; rowloop++) {
+		for (colloop = 0; colloop < 11; colloop++) {
+			switch (a[rowloop][colloop]) {
+				case ppnullpipeval :
+					debugstring = debugstring + "___|";
+					break;
+				case ppdeadpipeval :
+					debugstring = debugstring + "XXX|";
+					break;
+				default :
+					if (a[rowloop][colloop] < 10) debugstring = debugstring + "__";
+					else if (a[rowloop][colloop] < 100) debugstring = debugstring + "_";
+					debugstring = debugstring + a[rowloop][colloop] + "|";
+					break;
+			}
+		}
+		debugstring = debugstring + "<br>";
+	}
+	debug(debugstring);
+}
+
 function ppscale()
 {
 	var board = document.getElementById("board");
@@ -813,62 +822,16 @@ function ppdisplayanumber(number, digits, target) {
 	setImage(target + "1", eval("ppnumber" + units1s));
 }
 
-function ppdebugstuff() {
-	var rowloop = 0;
-	var colloop = 0;
-	var debugstring = "";
-	
-	// Show messagebox with game board.
-	for (rowloop = 10; rowloop >= 0; rowloop--) {
-		for (colloop = 0; colloop < 11; colloop++) {
-			switch (ppboardarray[rowloop][colloop]) {
-				case 0xff :			
-					debugstring = debugstring + "FF|";
-					break;			
-				case 0xff :			
-					debugstring = debugstring + "FE|";
-					break;			
-				default :
-					if (ppboardarray[rowloop][colloop] < 10) debugstring = debugstring + "0";
-					debugstring = debugstring + ppboardarray[rowloop][colloop] + "|";
-					break;			
-			}
-		}
-		debugstring = debugstring + "\n";
-	}
-	alert("Game board array:-\n\n" + debugstring);
 
-	// Dump game board to text box in array format.
-	debugstring = "ppboardarray = ["
-	for (rowloop = 0; rowloop < 11; rowloop++) {
-		debugstring = debugstring + "["
-		for (colloop = 0; colloop < 11; colloop++) {
-			debugstring = debugstring + ppboardarray[rowloop][colloop];
-			if (colloop != 10) debugstring = debugstring + ","
-		}
-		debugstring = debugstring + "]"
-		if (rowloop != 10) debugstring = debugstring + ","
+function ppdebugsecretbutton() {
+	if (ppdebug==2)
+	{
+		document.getElementById("ppdebug").style.display="block"
+	}else
+	{
+		document.getElementById("ppdebug").style.display="none"
 	}
-	debugstring = debugstring + "];"
-	document.ppdebugform.ppdebugnotes.value = debugstring;
-	
-	// Reset the game and populate the game board array with a winning design :)
-	ppreset();
-	//ppboardarray = [[255,255,255,255,255,255,255,255,255,255,255],[255,255,15,9,9,13,255,255,255,255,255],[15,11,11,10,10,11,11,2,15,2,255],[255,255,255,12,12,255,255,4,11,6,255],[255,14,5,3,12,255,15,2,255,4,0],[255,8,3,255,12,255,255,12,5,11,13],[255,12,255,255,12,255,255,12,12,255,255],[255,8,11,9,10,11,11,6,12,255,255],[1,3,5,10,3,5,9,7,7,11,13],[255,5,3,12,255,4,6,255,255,255,255],[255,16,255,16,255,255,16,255,255,255,255]];	// this one is complete.
-	//ppboardarray = [[15,255,3,11,255,255,11,255,255,255,12],[255,255,15,9,9,13,255,12,255,12,255],[15,11,11,10,10,11,11,2,15,2,255],[12,255,255,12,12,255,255,4,11,6,255],[255,14,5,3,12,12,15,2,255,4,0],[255,8,3,255,12,6,255,12,5,11,13],[10,12,255,3,12,255,2,12,12,255,11],[255,8,11,9,10,11,11,6,12,255,255],[1,3,5,10,3,5,9,7,7,11,13],[255,5,3,12,255,4,6,255,5,12,255],[255,16,255,16,12,255,16,255,11,16,5]];	// this one has many dead pipes.
-	ppboardarray = [[14,5,2,14,5,9,11,11,9,11,0],[12,12,12,4,10,3,255,255,8,9,2],[4,3,8,11,3,255,255,255,12,4,3],[15,11,7,11,11,2,255,255,8,11,13],[255,5,11,11,9,10,13,255,8,2,255],[15,6,255,255,12,12,14,2,12,12,255],[255,12,255,5,10,7,7,7,6,8,13],[1,6,255,12,12,255,255,255,4,3,255],[255,12,255,12,12,255,255,255,255,255,255],[15,10,11,6,16,255,255,255,255,255,255],[255,16,255,16,255,255,255,255,255,255,255]];	// this one has 1 leak.
-	// Draw array contents.
-	for (rowloop = 0; rowloop < 11; rowloop++) {
-		for (colloop = 0; colloop < 11; colloop++) {
-			row = rowloop; if (row < 10) row = "0" + row;
-			column = colloop; if (column < 10) column = "0" + column;
-			if (ppboardarray[rowloop][colloop] != 0xff) {
-				setBoardImage(row,column, eval("pppipe" + ppboardarray[rowloop][colloop]));
-			} else {
-				setBoardImage(row,column, ppblank);
-			}
-		}
-	}
+	ppdebug=(ppdebug+1) % 5;
 }
 
 
