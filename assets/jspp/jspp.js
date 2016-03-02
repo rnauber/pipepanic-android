@@ -543,6 +543,9 @@ function ppUpdateGameScore(diff,displayms,row,col ){
 			toppos=el.offsetTop - el.offsetHeight * 0.1;
 
 		leftpos=el.offsetLeft + el.offsetWidth * 0.7;
+        if (col == 10)
+            leftpos-= el.offsetWidth * 0.7;
+
 		width=el.offsetHeight * 1;
 		height=el.offsetHeight * 0.7;
 		if (text.length > 3)
@@ -562,12 +565,18 @@ function ppUpdateGameScore(diff,displayms,row,col ){
         marker.appendChild(markertext); 
                             
         document.body.appendChild(marker);
-
-		window.setTimeout(function(){
-                              marker.outerHTML = "";
-                          }.bind(marker),displayms)
-
         
+        fadesteps=5;
+        marker.opacity=0.9;
+        marker.opacityDiv=  Math.pow(marker.opacity / 0.1, 1/fadesteps); 
+
+		window.setInterval(function(){
+                            marker.opacity/= marker.opacityDiv;
+                            if (marker.opacity > 0.1)
+                                marker.style.opacity = ""+marker.opacity;
+                            else
+                              marker.outerHTML = "";
+                          }.bind(marker),displayms/fadesteps);
     }
 }
 
