@@ -1,7 +1,7 @@
 pipepanic-android
 ============
 
-![Screenshot](screenshot.jpg)
+![Screenshot](screenshot.png)
 
 [Try it in your browser!](https://cdn.rawgit.com/rnauber/pipepanic-android/master/assets/jspp/index.html)
 
