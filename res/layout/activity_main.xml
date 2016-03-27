@@ -59,6 +59,29 @@
                 android:text="@string/startnewgame"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
+
+            <TextView
+                android:id="@+id/difficultytext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@android:color/primary_text_dark"
+                android:gravity="center"
+                />
+
+            <SeekBar
+                android:id="@+id/difficulty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="3"
+                android:padding="16dp"
+                android:layout_gravity="center"/>
+
+
+
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

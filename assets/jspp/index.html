@@ -354,12 +354,19 @@
 </div>
 <div id="ppdebug" style="display:none;font-family:'Lucida Console', monospace;font-size:small;   clear:both;"></div>
 
+<div id="ui" style="display:none">
+    <button onclick="ppreset(1,1);">RESET</button>
+    <button onclick="javascript:help(1);">HELP</button>
+</div>
 
 <div id="help" style="display:none">
 
-    <h2>About PipePanic</h2>
+    <h2>
+         About PipePanic
+    </h2>
 
-    <h3>A plumbers favorite game!</h3>
+    <h3> A plumbers favorite game!</h3>
+
     PipePanic is about connecting pipes in a hurry before any water spills!
 
     This is an android port of the <a
@@ -375,10 +382,8 @@
     The licence of the original game is: <a
         href="http://www.gnu.org/licenses/gpl.txt">GNU GPL v2</a>
     and <a href="http://artlibre.org/licence/lal/en/">Free Art Licence</a>
-    and
-    pipepanic-android is licensed under the <a
-        href="https://github.com/rnauber/pipepanic-android/blob/master/LICENSE">MIT
-    license</a>.
+    and pipepanic-android is licensed under the
+    <a href="https://github.com/rnauber/pipepanic-android/blob/master/LICENSE">MIT license</a>.
     <p>
 
     </p>
@@ -397,6 +402,17 @@
         with a properly connected leakless pipe network.
     </p>
 
+    <h3>Difficulty</h3>
+        <p>
+            "Who buys cheap, buys twice." (old German proverb)
+        </p>
+    <p>
+        Sometimes you are forced to use subpar materials for your plumbing job. In the difficulty
+        settings "medium" to "very hard" you have to use pipes with an increasing likelihood of
+        breakage. So replace the broken pipes and claim extra money from the manufacturer when they
+        are flooded.
+    </p>
+
     <h3>Scoring</h3>
 
     <ul>
@@ -412,6 +428,8 @@
             starts to flood.
         </li>
         <li>50 points for each successfully flooded pipe.
+        </li>
+        <li>Additionally 100 points for each broken pipe that you fixed before it is flooded.
         </li>
         <li>250 points for successfully flooding the endpipe (red).
         </li>

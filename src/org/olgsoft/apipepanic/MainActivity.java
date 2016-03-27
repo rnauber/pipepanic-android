@@ -151,6 +151,29 @@ public class MainActivity extends Activity {
         });
         battlemodeseed.setProgress(1);// trigger handler
         battlemodeseed.setProgress(0);
+
+        SeekBar difficulty = (SeekBar) findViewById(R.id.difficulty);
+        difficulty.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                String val;
+                val = getResources().getStringArray(R.array.difficulties)[progress];
+                String text = String.format(getResources().getString(R.string.difficulty), val);
+                ((TextView) findViewById(R.id.difficultytext)).setText(text);
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+        difficulty.setProgress(1);// trigger handler
+        difficulty.setProgress(0);
     }
 
     public void increase_battlemode(View v)
@@ -236,7 +259,8 @@ public class MainActivity extends Activity {
 
     public void newGame(View v) {
         int battlemodeseed = ((SeekBar) findViewById(R.id.battlemodeseed)).getProgress();
-        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ")");
+        int difficulty = ((SeekBar) findViewById(R.id.difficulty)).getProgress();
+        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ", " + difficulty +")");
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
