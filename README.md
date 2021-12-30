@@ -1,14 +1,22 @@
+<img height="200px" src="./ic_launcher-web.png" align="right" />
+
 pipepanic-android
 ===================
-A plumbers favorite game!
-![Screenshot](screenshot.png)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+    alt="Get it on F-Droid"
+    height="80">](https://f-droid.org/en/packages/org.olgsoft.apipepanic/)
 
+    
+A plumbers favorite game!
+
+
+    
 PipePanic is about connecting pipes in a hurry before any water spills!
 
 This is an android port of the [PipePanic](http://www.users.waitrose.com/~thunor/jspp/index.html)
 game made by Thunor based on [2048-android](https://github.com/uberspot/2048-android) by uberspot.
 It gives you a launcher icon and allows offline play. You can get the the game
-at [fdroid](https://f-droid.org/repository/browse/?fdid=org.olgsoft.apipepanic)!
+at [fdroid](https://f-droid.org/en/packages/org.olgsoft.apipepanic/)!
 [Or you can try it in your browser!](https://htmlpreview.github.io/?https://github.com/rnauber/pipepanic-android/blob/master/assets/jspp/index.html)
 
 Contributions are very welcome!
@@ -16,11 +24,8 @@ Contributions are very welcome!
 Yours,
 [rnauber](https://github.com/rnauber)
 
-## Licenses
+![Screenshot](screenshot.png)
 
-pipepanic-android is licensed under
-the [MIT license.](https://github.com/rnauber/pipepanic-android/blob/master/LICENSE)
-The javascript game files are licensed under GPL v2.
 
 ## How to Play PipePanic
 
@@ -78,4 +83,15 @@ will be.
 If you feel competitive, you can battle with others in "BATTLE MODE"!
 Simply choose the same battle number (seed) and then you will get the exact same sequence of pipes.
 So no one can blame a low score on just bad luck :)
+
+
+
+## Licenses
+
+pipepanic-android is licensed under
+the [MIT license.](https://github.com/rnauber/pipepanic-android/blob/master/LICENSE)
+The javascript game files are licensed under GPL v2.
+
+
+
 
