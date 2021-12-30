@@ -2,13 +2,13 @@
 
 pipepanic-android
 ===================
+A plumbers favorite game!
+
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
     height="80">](https://f-droid.org/en/packages/org.olgsoft.apipepanic/)
 
-    
-A plumbers favorite game!
-
+   
 
     
 PipePanic is about connecting pipes in a hurry before any water spills!
