@@ -1,12 +1,11 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout">
     <!-- The main content view -->
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         tools:context=".MainActivity">
@@ -20,7 +19,7 @@
 
     <!-- The navigation drawer -->
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:id="@+id/message_view"
         android:layout_width="300dp"
         android:layout_height="fill_parent"
@@ -119,8 +118,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="-"
                         android:gravity="center"
-                        android:onClick="decrease_battlemode"
-                        tools:ignore="HardcodedText" />
+                        android:onClick="decrease_battlemode" />
                     <Button
                         android:layout_width="0dp"
                         android:layout_weight="0.5"
@@ -128,8 +126,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="+"
                         android:gravity="center"
-                        android:onClick="increase_battlemode"
-                        tools:ignore="HardcodedText" />
+                        android:onClick="increase_battlemode" />
 
 
                 </LinearLayout>
@@ -176,4 +173,4 @@
         </LinearLayout>
     </ScrollView>
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

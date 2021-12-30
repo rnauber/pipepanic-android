@@ -4,15 +4,15 @@ package org.olgsoft.apipepanic;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
+
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,7 +26,6 @@ import android.webkit.WebViewClient;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 
 public class MainActivity extends Activity {
 
@@ -57,11 +56,8 @@ public class MainActivity extends Activity {
         // Don't show an action bar or title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        // If on android 3.0+ activate hardware acceleration
-        if (Build.VERSION.SDK_INT >= 11) {
-            getWindow().setFlags(LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                    LayoutParams.FLAG_HARDWARE_ACCELERATED);
-        }
+        getWindow().setFlags(LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
 
         setContentView(R.layout.activity_main);
@@ -69,7 +65,7 @@ public class MainActivity extends Activity {
         // build a drawer
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -96,9 +92,7 @@ public class MainActivity extends Activity {
         settings.setUseWideViewPort(true);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            settings.setDisplayZoomControls(false);
-        }
+        settings.setDisplayZoomControls(false);
         settings.setLoadWithOverviewMode(true);
 
         mWebView.setVerticalScrollBarEnabled(false);
@@ -176,15 +170,14 @@ public class MainActivity extends Activity {
         difficulty.setProgress(0);
     }
 
-    public void increase_battlemode(View v)
-    {
-        battlemodeseed.setProgress(battlemodeseed.getProgress()+1);
+    public void increase_battlemode(View v) {
+        battlemodeseed.setProgress(battlemodeseed.getProgress() + 1);
     }
 
-    public void decrease_battlemode(View v)
-    {
-        battlemodeseed.setProgress(battlemodeseed.getProgress()-1);
+    public void decrease_battlemode(View v) {
+        battlemodeseed.setProgress(battlemodeseed.getProgress() - 1);
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         mWebView.saveState(outState);
@@ -260,7 +253,7 @@ public class MainActivity extends Activity {
     public void newGame(View v) {
         int battlemodeseed = ((SeekBar) findViewById(R.id.battlemodeseed)).getProgress();
         int difficulty = ((SeekBar) findViewById(R.id.difficulty)).getProgress();
-        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ", " + difficulty +")");
+        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ", " + difficulty + ")");
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 

@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.application'
+}
+
+
+dependencies {
+    implementation("androidx.drawerlayout:drawerlayout:1.0.0")
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 30
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+
+
+
+
+
+
+
