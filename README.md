@@ -17,14 +17,16 @@ This is an android port of the [PipePanic](http://www.users.waitrose.com/~thunor
 game made by Thunor based on [2048-android](https://github.com/uberspot/2048-android) by uberspot.
 It gives you a launcher icon and allows offline play. You can get the the game
 at [fdroid](https://f-droid.org/en/packages/org.olgsoft.apipepanic/)!
-[Or you can try it in your browser!](https://htmlpreview.github.io/?https://github.com/rnauber/pipepanic-android/blob/master/assets/jspp/index.html)
+[Or you can try it in your browser!](https://htmlpreview.github.io/?https://github.com/rnauber/pipepanic-android/blob/master/app/src/main/assets/jspp/index.html)
 
 Contributions are very welcome!
 
 Yours,
 [rnauber](https://github.com/rnauber)
 
-![Screenshot](screenshot.png)
+[<img src="screenshot.png"
+    alt="Screenshot of the game"
+    height="200">](https://htmlpreview.github.io/?https://github.com/rnauber/pipepanic-android/blob/master/app/src/main/assets/jspp/index.html)
 
 
 ## How to Play PipePanic
