@@ -13,6 +13,7 @@
     <string name="battlemode">BATTLE MODE: \n %s</string>
     <string name="difficulty">DIFFICULTY: \n %s</string>
     <array name="difficulties">
+        <item>infinite</item>
         <item>easy</item>
         <item>medium</item>
         <item>hard</item>

@@ -8,9 +8,9 @@ A plumbers favorite game!
     alt="Get it on F-Droid"
     height="80">](https://f-droid.org/en/packages/org.olgsoft.apipepanic/)
 
-   
 
-    
+
+
 PipePanic is about connecting pipes in a hurry before any water spills!
 
 This is an android port of the [PipePanic](http://www.users.waitrose.com/~thunor/jspp/index.html)
@@ -31,8 +31,8 @@ Yours,
 
 Join the green start-pipe and red end-pipe together using the pieces given to you via the preview
 bar on the left. The pipe shown in the rightmost square is the next available pipe for placement
-upon the game board. Once the timer reaches zero or you click on 'Fill Pipes' or the green
-start-pipe, the game board is cleared of any non-connecting 'dead' pieces and the system is flooded
+upon the game board. Once the timer reaches zero or you click on 'Fill Pipes'
+the game board is cleared of any non-connecting 'dead' pieces and the system is flooded
 with liquid. If any leaks are found the liquid stops flowing, so to achieve the highest score you
 must cover as much of the game board as possible with a properly connected leakless pipe network.
 
@@ -43,6 +43,8 @@ must cover as much of the game board as possible with a properly connected leakl
 Sometimes you are forced to use subpar materials for your plumbing job. In the difficulty settings "
 medium" to "very hard" you have to use pipes with an increasing likelihood of breakage. So replace
 the broken pipes and claim extra money from the manufacturer when they are flooded.
+
+Or you prefer not to rush, and disable the automatic flooding.
 
 ## Scoring
 
@@ -91,7 +93,3 @@ So no one can blame a low score on just bad luck :)
 pipepanic-android is licensed under
 the [MIT license.](https://github.com/rnauber/pipepanic-android/blob/master/LICENSE)
 The javascript game files are licensed under GPL v2.
-
-
-
-

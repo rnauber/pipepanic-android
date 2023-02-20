@@ -69,6 +69,7 @@ var pppreviewarray = new Array(3);
 var pppipearraypointer = null;
 var ppgametimer = ppgametimerseconds;
 var ppdifficulty = 0;
+var ppinfinite = 0;
 
 var ppGameTickTimer = new TimerInterval("ppExecGameTick()", ppGameTimerTickMS);
 var ppGameTick = 0;
@@ -780,14 +781,11 @@ function ppreset(battlemodeseed, difficulty) {
     else
         ppdifficulty = 0;
 
-    pipebreakprob = pipebreakprob_base * ppdifficulty;
-    pppipebreakagestep = pppipebreakagestep_base * (ppdifficulty + 1);
-
     switch (ppdifficulty) {
-        case 0:
+        case -1:
+            headline += " (\u221E)";
             break;
-        case 1:
-            headline += " (M)";
+        case 0:
             break;
         case 2:
             headline += " (H)";
@@ -799,6 +797,12 @@ function ppreset(battlemodeseed, difficulty) {
             headline += " (D" + ppdifficulty + ")";
     };
 
+    if (ppdifficulty == -1) {
+        ppdifficulty = 0;
+        ppinfinite = 1;
+    }
+    pipebreakprob = pipebreakprob_base * ppdifficulty;
+    pppipebreakagestep = pppipebreakagestep_base * (ppdifficulty + 1);
 
     //clear pppipearray
     pppipearray = new Array(pppipearraysize);
@@ -920,9 +924,9 @@ function ppdecgametimer() {
     ppgametimer--;
     ppdisplayanumber(ppgametimer, 3, "timer");
 
-    if (ppgametimer <= 0) {
+    if ((ppinfinite == 0) && (ppgametimer <= 0)) {
         ppfillpipesnow();
-    }
+    };
 
 }
 
