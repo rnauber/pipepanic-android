@@ -166,8 +166,8 @@ public class MainActivity extends Activity {
 
             }
         });
-        difficulty.setProgress(1);// trigger handler
-        difficulty.setProgress(0);
+        difficulty.setProgress(2);// trigger handler
+        difficulty.setProgress(1);
     }
 
     public void increase_battlemode(View v) {
@@ -253,7 +253,7 @@ public class MainActivity extends Activity {
     public void newGame(View v) {
         int battlemodeseed = ((SeekBar) findViewById(R.id.battlemodeseed)).getProgress();
         int difficulty = ((SeekBar) findViewById(R.id.difficulty)).getProgress();
-        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ", " + difficulty + ")");
+        mWebView.loadUrl("javascript:ppreset(" + battlemodeseed + ", " + (difficulty - 1) + ")");
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 
