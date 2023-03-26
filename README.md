@@ -2,7 +2,7 @@
 
 pipepanic-android
 ===================
-A plumbers favorite game!
+A plumber's favorite game!
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
     alt="Get it on F-Droid"
